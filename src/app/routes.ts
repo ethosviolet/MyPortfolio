@@ -14,4 +14,6 @@ export const router = createBrowserRouter([
       { path: 'projects/:projectId', Component: ProjectDetail }
     ]
   }
-]);
+], {
+  basename: import.meta.env.BASE_URL
+});

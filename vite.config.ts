@@ -18,7 +18,7 @@ function figmaAssetResolver() {
 
 export default defineConfig(({ command }) => ({
   // Use repo subpath on GitHub Pages; keep root path in local dev.
-  base: command === 'build' ? '/Responsive-portfolio-website/' : '/',
+  base: command === 'build' ? '/MyPortfolio/' : '/',
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
