@@ -1,5 +1,7 @@
 import { useParams, Link } from 'react-router';
 import hubsubLogo from '../../imports/Hubsub_logo_full.webp';
+import furwoodCover from '../../imports/furwood_cover_test.png';
+import hotSauceImage from '../../imports/hot_sauce_customized.png';
 
 interface ProjectData {
   id: number;
@@ -54,69 +56,84 @@ const projectsData: Record<string, ProjectData> = {
       description:
         'A clickable prototype demonstrating subscription plan creation, customer onboarding, and day-to-day management for a small business subscription offering.',
       features: [
-        'Guided subscription plan setup (pricing, cadence, limits)',
-        'Customer onboarding and subscription checkout flow',
-        'Subscriber management with status and billing history',
-        'Plan changes (upgrade/downgrade) and proration messaging',
-        'Failed payment handling and cancellation/pause flows'
+        'Guided subscription setup with clear pricing and billing cadence',
+        'Business-owner onboarding flow with account and plan activation',
+        'Subscriber management dashboard with status and payment history',
+        'Self-serve plan changes with transparent proration messaging',
+        'Dunning and failed-payment recovery with pause/cancel controls'
       ],
-      link: '#'
+      link: 'https://www.figma.com/proto/U1grg4qK5GhwzIWzysZT9M/Hub-Sub-Design--Hi-Fi-?node-id=0-1&t=cDJc4XMAo4QKh95W-1'
     }
   },
-  'saas-dashboard': {
+  'furwood-campout': {
     id: 2,
-    title: 'SaaS Dashboard Design',
-    description: 'Intuitive dashboard interface for project management SaaS, focusing on data visualization and team collaboration',
-    tags: ['UI Design', 'Prototyping', 'Design Systems'],
+    title: 'Launch a Community Camping Event Website',
+    description:
+      'End-to-end website design for a community camping event, making registration, schedules, and campsite information easy to access on any device.',
+    tags: ['Event UX', 'Information Architecture', 'Figma'],
     color: 'from-amber-500 to-orange-500',
-    image: 'https://images.unsplash.com/photo-1776278806688-64ef6a7e2cc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1c2VyJTIwaW50ZXJmYWNlJTIwZGVzaWduJTIwd29ya3NwYWNlfGVufDF8fHx8MTc3NzA2NjQ1MHww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: furwoodCover,
     story: {
-      challenge: 'A growing B2B SaaS company needed a dashboard redesign to handle complex project data while remaining accessible to non-technical users. The existing interface overwhelmed new users.',
-      approach: 'I facilitated workshops with stakeholders and end users to prioritize features. Created a modular design system that could scale with the product roadmap while maintaining consistency.',
-      impact: 'User onboarding time reduced from 2 weeks to 3 days. Feature adoption increased by 85%, and the design system enabled the team to ship new features 3x faster.'
+      challenge:
+        'Community members needed one clear place to learn about the camping event, register, review what to bring, and find schedules. Existing information was scattered across social posts and PDFs.',
+      approach:
+        'I mapped attendee journeys for first-time and returning campers, then designed a mobile-first event site centered on registration, activity schedules, campsite details, and FAQ content.',
+      impact:
+        'The redesigned experience reduced registration friction, improved schedule visibility, and made event logistics easier for both attendees and organizers.'
     },
     development: {
-      research: 'Analyzed user behavior through heatmaps and session recordings. Interviewed 30+ users across different company sizes to understand varied use cases and pain points.',
-      wireframes: 'Created a comprehensive set of wireframes exploring different data visualization approaches. Tested information density and layout options with focus groups.',
-      iterations: 'Built an interactive prototype in Figma with realistic data. Conducted A/B testing on key layouts and refined based on engagement metrics and qualitative feedback.'
+      research:
+        'Interviewed organizers and attendees to identify top tasks before and during the event. Prioritized fast access to registration, schedule, packing guidance, and location details.',
+      wireframes:
+        'Produced low- and mid-fidelity wireframes for homepage, registration, schedule, and campsite information pages, with clear navigation for mobile and desktop users.',
+      iterations:
+        'Refined copy hierarchy, call-to-action placement, and schedule browsing patterns through usability walkthroughs to improve clarity and reduce missed event information.'
     },
     prototype: {
-      description: 'A responsive dashboard with customizable widgets, real-time collaboration features, and advanced filtering capabilities.',
+      description:
+        'A responsive event website prototype featuring streamlined registration, activity schedules, campsite logistics, and organizer communication touchpoints.',
       features: [
-        'Drag-and-drop customizable dashboard widgets',
-        'Real-time team activity feed',
-        'Advanced filtering and saved views',
-        'Interactive charts with drill-down capabilities',
-        'Dark mode with automatic scheduling'
+        'Mobile-first event registration flow',
+        'Day-by-day activity schedule with time and location details',
+        'Campsite, parking, and packing information hub',
+        'FAQ and contact pathways for attendee support',
+        'Organizer update section for important announcements'
       ],
       link: '#'
     }
   },
   'elearning-platform': {
     id: 3,
-    title: 'E-Learning Platform',
-    description: 'End-to-end design of an educational platform with focus on student engagement and course discovery',
-    tags: ['UX Research', 'Wireframing', 'Usability Testing'],
+    title: 'Designing an Interactive E-Commerce Platform for Hot Sauce Sales',
+    description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
+    tags: ['E-commerce UX', 'Figma', 'Conversion Design'],
     color: 'from-red-500 to-rose-500',
-    image: 'https://images.unsplash.com/photo-1750056393300-102f7c4b8bc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXNpZ24lMjBtb2NrdXB8ZW58MXx8fHwxNzc3MDY2NDUxfDA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: hotSauceImage,
     story: {
-      challenge: 'An educational startup wanted to create an online learning platform that would increase course completion rates and make learning feel less isolating for remote students.',
-      approach: 'I conducted ethnographic research with students and educators to understand the emotional aspects of online learning. Designed features that foster community and maintain motivation.',
-      impact: 'The platform achieved a 78% course completion rate (vs. industry average of 15%) and received praise for its engaging, community-focused approach to online education.'
+      challenge:
+        'Hot sauce shoppers needed a faster way to find flavors that match their heat tolerance and food preferences. Product details were inconsistent, and users struggled to compare options before buying.',
+      approach:
+        'I designed a product discovery flow with heat-level filtering, flavor profile tags, and richer product pages so customers could browse confidently and build carts without second-guessing.',
+      impact:
+        'The concept improves product findability and purchase confidence by making browsing, comparison, and checkout clearer for first-time and repeat buyers.'
     },
     development: {
-      research: 'Shadowed 20 students during their online learning sessions and interviewed 15 instructors. Identified key moments where students lost motivation or felt disconnected.',
-      wireframes: 'Sketched multiple concepts for course navigation, progress tracking, and peer interaction. Created paper prototypes for rapid testing with students.',
-      iterations: 'Developed high-fidelity prototypes with gamification elements, social features, and personalized learning paths. Conducted 5 rounds of usability testing to optimize engagement.'
+      research:
+        'Reviewed competitor spice shops and interviewed target users about spice tolerance, flavor expectations, and trust signals needed before trying unfamiliar sauces.',
+      wireframes:
+        'Created wireframes for landing, category browsing, product detail, and cart flows with a focus on quick filtering, clear product attributes, and strong visual hierarchy.',
+      iterations:
+        'Refined heat indicators, tasting-note layout, and mobile checkout steps based on usability feedback to reduce friction and improve conversion intent.'
     },
     prototype: {
-      description: 'An engaging learning platform with progress gamification, peer study groups, and adaptive learning paths.',
+      description:
+        'A responsive prototype for a hot sauce storefront with guided discovery, comparison-friendly product pages, and streamlined checkout.',
       features: [
-        'Personalized learning dashboard with progress tracking',
-        'Study group formation and peer collaboration tools',
-        'Achievement badges and learning streaks',
-        'Interactive video lessons with note-taking',
-        'AI-powered course recommendations'
+        'Heat-level filtering from mild to extreme',
+        'Flavor profile tags and food-pairing suggestions',
+        'Product comparison support through key attribute blocks',
+        'Cart and checkout flow optimized for mobile',
+        'Trust-building details like reviews and ingredient transparency'
       ],
       link: '#'
     }
@@ -127,6 +144,11 @@ export function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
   const project = projectId ? projectsData[projectId] : null;
   const isLogoHero = projectId === 'Hubsub';
+  const hasPrototypeLink = project?.prototype.link && project.prototype.link !== '#';
+  const figmaEmbedUrl =
+    hasPrototypeLink && project?.prototype.link.includes('figma.com')
+      ? `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(project.prototype.link)}`
+      : null;
 
   if (!project) {
     return (
@@ -236,9 +258,29 @@ export function ProjectDetail() {
             ))}
           </ul>
 
-          <div className="bg-gray-100 h-96 rounded-lg flex items-center justify-center mb-6">
-            <span className="text-gray-400">Interactive prototype preview</span>
-          </div>
+          {figmaEmbedUrl ? (
+            <div className="bg-gray-100 h-96 rounded-lg overflow-hidden mb-6 border border-gray-200">
+              <iframe
+                src={figmaEmbedUrl}
+                title={`${project.title} prototype preview`}
+                className="w-full h-full"
+                allowFullScreen
+              />
+            </div>
+          ) : hasPrototypeLink ? (
+            <a
+              href={project.prototype.link}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-gray-100 h-96 rounded-lg flex items-center justify-center mb-6 hover:bg-gray-200 transition-colors"
+            >
+              <span className="text-gray-500">Interactive prototype preview (click to open)</span>
+            </a>
+          ) : (
+            <div className="bg-gray-100 h-96 rounded-lg flex items-center justify-center mb-6">
+              <span className="text-gray-400">Interactive prototype preview</span>
+            </div>
+          )}
 
           <div className="flex gap-4">
             <a
@@ -246,12 +288,6 @@ export function ProjectDetail() {
               className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
             >
               View Interactive Prototype
-            </a>
-            <a
-              href="#"
-              className="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Download Case Study PDF
             </a>
           </div>
         </div>

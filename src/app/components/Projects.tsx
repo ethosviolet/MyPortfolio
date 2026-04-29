@@ -1,5 +1,7 @@
 import { Link } from 'react-router';
 import hubsubLogo from '../../imports/Hubsub_logo_full.webp';
+import furwoodCover from '../../imports/furwood_cover_test.png';
+import hotSauceImage from '../../imports/hot_sauce_customized.png';
 
 interface Project {
   id: number;
@@ -23,21 +25,21 @@ const projects: Project[] = [
   },
   {
     id: 2,
-    slug: 'saas-dashboard',
-    title: 'SaaS Dashboard Design',
-    description: 'Intuitive dashboard interface for project management SaaS, focusing on data visualization and team collaboration',
-    tags: ['UI Design', 'Prototyping', 'Design Systems'],
+    slug: 'furwood-campout',
+    title: 'Launch a Community Camping Event Website',
+    description: 'End-to-end website design for a community camping event, making registration, schedules, and campsite information easy to access on any device.',
+    tags: ['Event UX', 'Information Architecture', 'Figma'],
     color: 'from-amber-500 to-orange-500',
-    image: 'https://images.unsplash.com/photo-1776278806688-64ef6a7e2cc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1c2VyJTIwaW50ZXJmYWNlJTIwZGVzaWduJTIwd29ya3NwYWNlfGVufDF8fHx8MTc3NzA2NjQ1MHww&ixlib=rb-4.1.0&q=80&w=1080'
+    image: furwoodCover
   },
   {
     id: 3,
     slug: 'elearning-platform',
-    title: 'E-Learning Platform',
-    description: 'End-to-end design of an educational platform with focus on student engagement and course discovery',
-    tags: ['UX Research', 'Wireframing', 'Usability Testing'],
+    title: 'Designing an Interactive E-Commerce Platform for Hot Sauce Sales',
+    description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
+    tags: ['E-commerce UX', 'Figma', 'Conversion Design'],
     color: 'from-red-500 to-rose-500',
-    image: 'https://images.unsplash.com/photo-1750056393300-102f7c4b8bc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWIlMjBkZXNpZ24lMjBtb2NrdXB8ZW58MXx8fHwxNzc3MDY2NDUxfDA&ixlib=rb-4.1.0&q=80&w=1080'
+    image: hotSauceImage
   }
 ];
 
