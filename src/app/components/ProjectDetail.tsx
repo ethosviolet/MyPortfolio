@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router';
 import hubsubLogo from '../../imports/Hubsub_logo_full.webp';
+import hubsubDigitalWireframes from '../../imports/hubsub_digital_wireframes.png';
 import furwoodCover from '../../imports/furwood_cover_test.png';
 import hotSauceImage from '../../imports/hot_sauce_customized.png';
 
@@ -38,29 +40,29 @@ const projectsData: Record<string, ProjectData> = {
     image: hubsubLogo,
     story: {
       challenge:
-        'Small businesses want predictable recurring revenue, but setting up subscriptions is often fragmented—pricing, packaging, customer management, payments, and cancellations are spread across tools.',
+        'Small businesses want a way to connect with their most loyal customers that increases interaction with the business via subscription model. We aim to make all of the associated services and business side data easily accessible for both customers and business owners, while adding other features that make the app more engaging for users who want to support their favorite businesses.',
       approach:
-        'I explored the end-to-end subscription lifecycle, mapped key user journeys, and iterated on flows for creating plans, onboarding customers, and managing billing and account changes. The focus was clarity, trust, and reducing setup time.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       impact:
-        'The concept delivers a streamlined, business-friendly experience that makes subscription setup approachable and management workflows easy to find and complete.'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     development: {
       research:
-        'Defined target users (owners/operators), key JTBD, and the subscription lifecycle. Audited competitor patterns for plan creation, customer management, and billing transparency.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
       wireframes:
-        'Created low-fidelity layouts for plan setup, checkout/onboarding, and a unified subscriber management area. Prioritized a guided setup with clear defaults.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       iterations:
-        'Iterated on information architecture, terminology, and core management flows (pause/cancel, upgrades, failed payment handling) to reduce friction and support edge cases.'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.'
     },
     prototype: {
       description:
-        'A clickable prototype demonstrating subscription plan creation, customer onboarding, and day-to-day management for a small business subscription offering.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       features: [
-        'Guided subscription setup with clear pricing and billing cadence',
-        'Business-owner onboarding flow with account and plan activation',
-        'Subscriber management dashboard with status and payment history',
-        'Self-serve plan changes with transparent proration messaging',
-        'Dunning and failed-payment recovery with pause/cancel controls'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+        'Duis aute irure dolor in reprehenderit in voluptate velit.',
+        'Excepteur sint occaecat cupidatat non proident.'
       ],
       link: 'https://www.figma.com/proto/U1grg4qK5GhwzIWzysZT9M/Hub-Sub-Design--Hi-Fi-?node-id=0-1&t=cDJc4XMAo4QKh95W-1'
     }
@@ -75,29 +77,29 @@ const projectsData: Record<string, ProjectData> = {
     image: furwoodCover,
     story: {
       challenge:
-        'Community members needed one clear place to learn about the camping event, register, review what to bring, and find schedules. Existing information was scattered across social posts and PDFs.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       approach:
-        'I mapped attendee journeys for first-time and returning campers, then designed a mobile-first event site centered on registration, activity schedules, campsite details, and FAQ content.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       impact:
-        'The redesigned experience reduced registration friction, improved schedule visibility, and made event logistics easier for both attendees and organizers.'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'
     },
     development: {
       research:
-        'Interviewed organizers and attendees to identify top tasks before and during the event. Prioritized fast access to registration, schedule, packing guidance, and location details.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
       wireframes:
-        'Produced low- and mid-fidelity wireframes for homepage, registration, schedule, and campsite information pages, with clear navigation for mobile and desktop users.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       iterations:
-        'Refined copy hierarchy, call-to-action placement, and schedule browsing patterns through usability walkthroughs to improve clarity and reduce missed event information.'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa.'
     },
     prototype: {
       description:
-        'A responsive event website prototype featuring streamlined registration, activity schedules, campsite logistics, and organizer communication touchpoints.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       features: [
-        'Mobile-first event registration flow',
-        'Day-by-day activity schedule with time and location details',
-        'Campsite, parking, and packing information hub',
-        'FAQ and contact pathways for attendee support',
-        'Organizer update section for important announcements'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+        'Duis aute irure dolor in reprehenderit in voluptate velit.',
+        'Excepteur sint occaecat cupidatat non proident.'
       ],
       link: '#'
     }
@@ -111,34 +113,228 @@ const projectsData: Record<string, ProjectData> = {
     image: hotSauceImage,
     story: {
       challenge:
-        'Hot sauce shoppers needed a faster way to find flavors that match their heat tolerance and food preferences. Product details were inconsistent, and users struggled to compare options before buying.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       approach:
-        'I designed a product discovery flow with heat-level filtering, flavor profile tags, and richer product pages so customers could browse confidently and build carts without second-guessing.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       impact:
-        'The concept improves product findability and purchase confidence by making browsing, comparison, and checkout clearer for first-time and repeat buyers.'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.'
     },
     development: {
       research:
-        'Reviewed competitor spice shops and interviewed target users about spice tolerance, flavor expectations, and trust signals needed before trying unfamiliar sauces.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
       wireframes:
-        'Created wireframes for landing, category browsing, product detail, and cart flows with a focus on quick filtering, clear product attributes, and strong visual hierarchy.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       iterations:
-        'Refined heat indicators, tasting-note layout, and mobile checkout steps based on usability feedback to reduce friction and improve conversion intent.'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa.'
     },
     prototype: {
       description:
-        'A responsive prototype for a hot sauce storefront with guided discovery, comparison-friendly product pages, and streamlined checkout.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       features: [
-        'Heat-level filtering from mild to extreme',
-        'Flavor profile tags and food-pairing suggestions',
-        'Product comparison support through key attribute blocks',
-        'Cart and checkout flow optimized for mobile',
-        'Trust-building details like reviews and ingredient transparency'
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+        'Duis aute irure dolor in reprehenderit in voluptate velit.',
+        'Excepteur sint occaecat cupidatat non proident.'
       ],
       link: '#'
     }
   }
 };
+
+interface HubsubWireframeSlide {
+  id: string;
+  src: string;
+  label: string;
+  alt: string;
+}
+
+/** Import paper wireframe images into `src/imports` and push more entries here. */
+const HUBSUB_WIREFRAME_SLIDES: HubsubWireframeSlide[] = [
+  {
+    id: 'digital',
+    src: hubsubDigitalWireframes,
+    label: 'Digital wireframe',
+    alt:
+      'HubSub mobile app digital wireframes: login, feed, subscriptions, merch, profile, perks, cart, checkout, and events'
+  }
+];
+
+function HubsubWireframeCarousel() {
+  const slides = HUBSUB_WIREFRAME_SLIDES;
+  const count = slides.length;
+  const [index, setIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  const slide = slides[index];
+
+  const go = (delta: number) => {
+    setIndex((i) => (i + delta + count) % count);
+  };
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLightboxOpen(false);
+        return;
+      }
+      if (count <= 1) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        go(-1);
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        go(1);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [lightboxOpen, count]);
+
+  return (
+    <>
+      <div
+        className="rounded-xl border border-gray-200 bg-gradient-to-b from-gray-50 to-gray-100/90 shadow-sm p-4 sm:p-6"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="HubSub wireframes"
+      >
+        <div className="flex items-center justify-center gap-1 sm:gap-3">
+          {count > 1 ? (
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              aria-label="Previous wireframe"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          ) : null}
+
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            aria-expanded={lightboxOpen}
+            aria-controls="hubsub-wireframe-lightbox"
+            className="group mx-auto flex max-w-full flex-col items-center gap-2 rounded-xl px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100"
+          >
+            <div className="rounded-xl border-2 border-gray-200/80 bg-white p-2 shadow-md ring-1 ring-black/[0.04] sm:p-3">
+              <div className="flex min-h-[88px] items-center justify-center rounded-lg bg-gray-100 px-4 py-3 sm:min-h-[100px] sm:px-5 sm:py-4">
+                <img
+                  src={slide.src}
+                  alt=""
+                  className="max-h-24 w-auto max-w-[min(42vw,9.5rem)] object-contain opacity-95 transition-opacity group-hover:opacity-100 sm:max-h-28 sm:max-w-[10.5rem]"
+                />
+              </div>
+            </div>
+            <span className="text-center text-sm font-medium text-gray-800">{slide.label}</span>
+            <span className="text-center text-xs text-gray-500">Click frame to view full screen</span>
+          </button>
+
+          {count > 1 ? (
+            <button
+              type="button"
+              onClick={() => go(1)}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              aria-label="Next wireframe"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          ) : null}
+        </div>
+
+        {count > 1 ? (
+          <div className="mt-4 flex flex-wrap justify-center gap-2" role="tablist" aria-label="Wireframe slides">
+            {slides.map((s, i) => (
+              <button
+                key={s.id}
+                type="button"
+                role="tab"
+                aria-selected={i === index}
+                onClick={() => setIndex(i)}
+                className={
+                  i === index
+                    ? 'h-2.5 w-2.5 rounded-full bg-orange-600 shadow-sm'
+                    : 'h-2.5 w-2.5 rounded-full bg-gray-300 hover:bg-gray-400'
+                }
+                aria-label={`Show: ${s.label}`}
+              />
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      {lightboxOpen ? (
+        <div
+          id="hubsub-wireframe-lightbox"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/88 p-3 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${slide.label} full screen`}
+        >
+          <div className="relative flex h-full w-full max-h-[100dvh] max-w-[100vw] items-center justify-center">
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(false)}
+              className="absolute left-2 top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-gray-900 shadow-md hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              aria-label="Close full screen wireframe"
+            >
+              <svg
+                className="h-6 w-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden
+              >
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+
+            {count > 1 ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-gray-900 shadow-md hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:left-3"
+                  aria-label="Previous wireframe"
+                >
+                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                    <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-gray-900 shadow-md hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:right-3"
+                  aria-label="Next wireframe"
+                >
+                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </>
+            ) : null}
+
+            <img src={slide.src} alt={slide.alt} className="max-h-full max-w-full object-contain" />
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
 
 export function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -228,9 +424,13 @@ export function ProjectDetail() {
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Wireframes & Concepts</h3>
             <p className="text-gray-600 leading-relaxed mb-4">{project.development.wireframes}</p>
-            <div className="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
-              <span className="text-gray-400">Wireframe sketches and concepts</span>
-            </div>
+            {projectId === 'Hubsub' ? (
+              <HubsubWireframeCarousel />
+            ) : (
+              <div className="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                <span className="text-gray-400">Wireframe sketches and concepts</span>
+              </div>
+            )}
           </div>
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Testing & Iteration</h3>
