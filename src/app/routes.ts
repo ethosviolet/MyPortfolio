@@ -1,4 +1,5 @@
-import { createBrowserRouter } from 'react-router';
+import { createElement } from 'react';
+import { createBrowserRouter, Navigate } from 'react-router';
 import { Root } from './components/Root';
 import { Introduction } from './components/Introduction';
 import { Projects } from './components/Projects';
@@ -11,6 +12,10 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Introduction },
       { path: 'projects', Component: Projects },
+      {
+        path: 'projects/elearning-platform',
+        element: createElement(Navigate, { to: '../custom-caliente', replace: true })
+      },
       { path: 'projects/:projectId', Component: ProjectDetail }
     ]
   }

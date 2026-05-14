@@ -104,7 +104,7 @@ const projectsData: Record<string, ProjectData> = {
       link: '#'
     }
   },
-  'elearning-platform': {
+  'custom-caliente': {
     id: 3,
     title: 'Designing an Interactive E-Commerce Platform for Hot Sauce Sales',
     description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
@@ -137,7 +137,8 @@ const projectsData: Record<string, ProjectData> = {
         'Duis aute irure dolor in reprehenderit in voluptate velit.',
         'Excepteur sint occaecat cupidatat non proident.'
       ],
-      link: '#'
+      link:
+        'https://www.figma.com/proto/n0afnUokY6boq5y7giF6d6/Custom-Caliente-Wireframes--Mockups?node-id=232-19&t=dZtYkok3wvROlGDR-1'
     }
   }
 };
@@ -339,7 +340,8 @@ function HubsubWireframeCarousel() {
 export function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
   const project = projectId ? projectsData[projectId] : null;
-  const isLogoHero = projectId === 'Hubsub';
+  /** Hubsub logo: full mark on white. Custom Caliente: text must stay visible; red frame fills the card. */
+  const isHubsubHero = projectId === 'Hubsub';
   const hasPrototypeLink = project?.prototype.link && project.prototype.link !== '#';
   const figmaEmbedUrl =
     hasPrototypeLink && project?.prototype.link.includes('figma.com')
@@ -380,15 +382,27 @@ export function ProjectDetail() {
             </span>
           ))}
         </div>
-        <img
-          src={project.image}
-          alt={project.title}
-          className={
-            isLogoHero
-              ? 'w-full max-h-[70vh] object-contain rounded-xl shadow-lg bg-white p-8 mx-auto'
-              : 'w-full h-96 object-cover rounded-xl shadow-lg'
-          }
-        />
+        {projectId === 'custom-caliente' ? (
+          <div
+            className={`overflow-hidden rounded-xl shadow-lg ring-1 ring-black/[0.06] bg-gradient-to-r ${project.color}`}
+          >
+            <img
+              src={project.image}
+              alt={project.title}
+              className="mx-auto block w-full max-h-[min(68vh,48rem)] object-contain p-1.5 sm:p-2.5"
+            />
+          </div>
+        ) : (
+          <img
+            src={project.image}
+            alt={project.title}
+            className={
+              isHubsubHero
+                ? 'w-full max-h-[min(70vh,52rem)] object-contain rounded-xl shadow-lg bg-white p-6 sm:p-10 mx-auto'
+                : 'w-full h-96 object-cover rounded-xl shadow-lg'
+            }
+          />
+        )}
       </div>
 
       {/* Story Section */}

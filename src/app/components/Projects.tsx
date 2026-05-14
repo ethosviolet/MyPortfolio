@@ -34,7 +34,7 @@ const projects: Project[] = [
   },
   {
     id: 3,
-    slug: 'elearning-platform',
+    slug: 'custom-caliente',
     title: 'Designing an Interactive E-Commerce Platform for Hot Sauce Sales',
     description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
     tags: ['E-commerce UX', 'Figma', 'Conversion Design'],
@@ -65,18 +65,30 @@ export function Projects() {
             <div className={`absolute top-0 left-0 right-0 h-2 bg-gradient-to-r ${project.color}`} />
 
             {/*
-              Logos (like Hubsub) should not be cropped like photos.
-              We keep photos as `object-cover`, but switch logos to `object-contain`.
+              Logos and text-heavy artwork should not be cropped like photos.
+              Use `object-contain` (+ padding) for those; photos stay `object-cover`.
             */}
-            <img
-              src={project.image}
-              alt={project.title}
-              className={
-                project.slug === 'Hubsub'
-                  ? 'w-full h-48 object-contain bg-white p-6'
-                  : 'w-full h-48 object-cover'
-              }
-            />
+            {project.slug === 'custom-caliente' ? (
+              <div
+                className={`flex h-52 sm:h-60 w-full items-center justify-center bg-gradient-to-r ${project.color}`}
+              >
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="h-full w-full object-contain p-1.5 sm:p-2"
+                />
+              </div>
+            ) : (
+              <img
+                src={project.image}
+                alt={project.title}
+                className={
+                  project.slug === 'Hubsub'
+                    ? 'w-full h-48 object-contain bg-white p-6'
+                    : 'w-full h-48 object-cover'
+                }
+              />
+            )}
 
             <div className="p-6">
               <h3 className="font-semibold text-gray-900 mb-3 text-lg group-hover:text-orange-600 transition-colors">
