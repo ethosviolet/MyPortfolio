@@ -36,7 +36,7 @@ const projectsData: Record<string, ProjectData> = {
     description:
       'Concept and UX work for a subscription platform that helps small businesses launch, manage, and grow recurring revenue offerings.',
     tags: ['Product Design', 'UX Research', 'Figma'],
-    color: 'from-orange-500 to-red-500',
+    color: 'from-brand-light to-brand',
     image: hubsubLogo,
     story: {
       challenge:
@@ -73,7 +73,7 @@ const projectsData: Record<string, ProjectData> = {
     description:
       'End-to-end website design for a community camping event, making registration, schedules, and campsite information easy to access on any device.',
     tags: ['Event UX', 'Information Architecture', 'Figma'],
-    color: 'from-amber-500 to-orange-500',
+    color: 'from-violet-400 to-brand',
     image: furwoodCover,
     story: {
       challenge:
@@ -109,7 +109,7 @@ const projectsData: Record<string, ProjectData> = {
     title: 'Designing an Interactive E-Commerce Platform for Hot Sauce Sales',
     description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
     tags: ['E-commerce UX', 'Figma', 'Conversion Design'],
-    color: 'from-red-500 to-rose-500',
+    color: 'from-brand to-brand-deep',
     image: hotSauceImage,
     story: {
       challenge:
@@ -202,7 +202,7 @@ function HubsubWireframeCarousel() {
   return (
     <>
       <div
-        className="rounded-xl border border-gray-200 bg-gradient-to-b from-gray-50 to-gray-100/90 shadow-sm p-4 sm:p-6"
+        className="rounded-xl border border-border bg-gradient-to-b from-muted to-card/90 shadow-sm p-4 sm:p-6"
         role="region"
         aria-roledescription="carousel"
         aria-label="HubSub wireframes"
@@ -212,7 +212,7 @@ function HubsubWireframeCarousel() {
             <button
               type="button"
               onClick={() => go(-1)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               aria-label="Previous wireframe"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -226,10 +226,10 @@ function HubsubWireframeCarousel() {
             onClick={() => setLightboxOpen(true)}
             aria-expanded={lightboxOpen}
             aria-controls="hubsub-wireframe-lightbox"
-            className="group mx-auto flex max-w-full flex-col items-center gap-2 rounded-xl px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100"
+            className="group mx-auto flex max-w-full flex-col items-center gap-2 rounded-xl px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-card"
           >
-            <div className="rounded-xl border-2 border-gray-200/80 bg-white p-2 shadow-md ring-1 ring-black/[0.04] sm:p-3">
-              <div className="flex min-h-[88px] items-center justify-center rounded-lg bg-gray-100 px-4 py-3 sm:min-h-[100px] sm:px-5 sm:py-4">
+            <div className="rounded-xl border-2 border-border/80 bg-card p-2 shadow-md ring-1 ring-white/[0.08] sm:p-3">
+              <div className="flex min-h-[88px] items-center justify-center rounded-lg bg-muted px-4 py-3 sm:min-h-[100px] sm:px-5 sm:py-4">
                 <img
                   src={slide.src}
                   alt=""
@@ -237,15 +237,15 @@ function HubsubWireframeCarousel() {
                 />
               </div>
             </div>
-            <span className="text-center text-sm font-medium text-gray-800">{slide.label}</span>
-            <span className="text-center text-xs text-gray-500">Click frame to view full screen</span>
+            <span className="text-center text-sm font-medium text-foreground">{slide.label}</span>
+            <span className="text-center text-xs text-muted-foreground">Click frame to view full screen</span>
           </button>
 
           {count > 1 ? (
             <button
               type="button"
               onClick={() => go(1)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               aria-label="Next wireframe"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -266,8 +266,8 @@ function HubsubWireframeCarousel() {
                 onClick={() => setIndex(i)}
                 className={
                   i === index
-                    ? 'h-2.5 w-2.5 rounded-full bg-orange-600 shadow-sm'
-                    : 'h-2.5 w-2.5 rounded-full bg-gray-300 hover:bg-gray-400'
+                    ? 'h-2.5 w-2.5 rounded-full bg-brand shadow-sm'
+                    : 'h-2.5 w-2.5 rounded-full bg-muted-foreground/40 hover:bg-muted-foreground/60'
                 }
                 aria-label={`Show: ${s.label}`}
               />
@@ -288,7 +288,7 @@ function HubsubWireframeCarousel() {
             <button
               type="button"
               onClick={() => setLightboxOpen(false)}
-              className="absolute left-2 top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-gray-900 shadow-md hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              className="absolute left-2 top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-card/95 text-foreground shadow-md hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               aria-label="Close full screen wireframe"
             >
               <svg
@@ -309,7 +309,7 @@ function HubsubWireframeCarousel() {
                 <button
                   type="button"
                   onClick={() => go(-1)}
-                  className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-gray-900 shadow-md hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:left-3"
+                  className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-card/95 text-foreground shadow-md hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:left-3"
                   aria-label="Previous wireframe"
                 >
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -319,7 +319,7 @@ function HubsubWireframeCarousel() {
                 <button
                   type="button"
                   onClick={() => go(1)}
-                  className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-gray-900 shadow-md hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 sm:right-3"
+                  className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-card/95 text-foreground shadow-md hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:right-3"
                   aria-label="Next wireframe"
                 >
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -351,8 +351,8 @@ export function ProjectDetail() {
   if (!project) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Project not found</h1>
-        <Link to="/projects" className="text-orange-600 hover:text-orange-700">
+        <h1 className="text-3xl font-bold text-foreground mb-4">Project not found</h1>
+        <Link to="/projects" className="text-brand hover:text-brand-hover">
           Back to Projects
         </Link>
       </div>
@@ -361,22 +361,22 @@ export function ProjectDetail() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <Link to="/projects" className="text-orange-600 hover:text-orange-700 mb-6 inline-block">
+      <Link to="/projects" className="text-brand hover:text-brand-hover mb-6 inline-block">
         ← Back to Projects
       </Link>
 
       {/* Hero Section */}
       <div className="mb-12">
         <div className={`h-2 bg-gradient-to-r ${project.color} rounded-full mb-6`} />
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
           {project.title}
         </h1>
-        <p className="text-xl text-gray-600 mb-6">{project.description}</p>
+        <p className="text-xl text-muted-foreground mb-6">{project.description}</p>
         <div className="flex flex-wrap gap-2 mb-8">
           {project.tags.map((tag, index) => (
             <span
               key={index}
-              className="px-4 py-2 bg-white text-gray-700 rounded-lg shadow-sm"
+              className="px-4 py-2 bg-card text-muted-foreground rounded-lg shadow-sm"
             >
               {tag}
             </span>
@@ -384,7 +384,7 @@ export function ProjectDetail() {
         </div>
         {projectId === 'custom-caliente' ? (
           <div
-            className={`overflow-hidden rounded-xl shadow-lg ring-1 ring-black/[0.06] bg-gradient-to-r ${project.color}`}
+            className={`overflow-hidden rounded-xl shadow-lg ring-1 ring-white/[0.1] bg-gradient-to-r ${project.color}`}
           >
             <img
               src={project.image}
@@ -398,7 +398,7 @@ export function ProjectDetail() {
             alt={project.title}
             className={
               isHubsubHero
-                ? 'w-full max-h-[min(70vh,52rem)] object-contain rounded-xl shadow-lg bg-white p-6 sm:p-10 mx-auto'
+                ? 'w-full max-h-[min(70vh,52rem)] object-contain rounded-xl shadow-lg bg-card p-6 sm:p-10 mx-auto'
                 : 'w-full h-96 object-cover rounded-xl shadow-lg'
             }
           />
@@ -407,50 +407,50 @@ export function ProjectDetail() {
 
       {/* Story Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">The Story</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-8">The Story</h2>
         <div className="space-y-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">The Challenge</h3>
-            <p className="text-gray-600 leading-relaxed">{project.story.challenge}</p>
+          <div className="bg-card p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold text-foreground mb-3">The Challenge</h3>
+            <p className="text-muted-foreground leading-relaxed">{project.story.challenge}</p>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">My Approach</h3>
-            <p className="text-gray-600 leading-relaxed">{project.story.approach}</p>
+          <div className="bg-card p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold text-foreground mb-3">My Approach</h3>
+            <p className="text-muted-foreground leading-relaxed">{project.story.approach}</p>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">The Impact</h3>
-            <p className="text-gray-600 leading-relaxed">{project.story.impact}</p>
+          <div className="bg-card p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold text-foreground mb-3">The Impact</h3>
+            <p className="text-muted-foreground leading-relaxed">{project.story.impact}</p>
           </div>
         </div>
       </section>
 
       {/* Design Development Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">Design Development</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-8">Design Development</h2>
         <div className="space-y-8">
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Research & Discovery</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">{project.development.research}</p>
-            <div className="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
-              <span className="text-gray-400">Research artifacts and user insights</span>
+            <h3 className="text-xl font-semibold text-foreground mb-3">Research & Discovery</h3>
+            <p className="text-muted-foreground leading-relaxed mb-4">{project.development.research}</p>
+            <div className="bg-muted h-64 rounded-lg flex items-center justify-center">
+              <span className="text-muted-foreground">Research artifacts and user insights</span>
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Wireframes & Concepts</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">{project.development.wireframes}</p>
+            <h3 className="text-xl font-semibold text-foreground mb-3">Wireframes & Concepts</h3>
+            <p className="text-muted-foreground leading-relaxed mb-4">{project.development.wireframes}</p>
             {projectId === 'Hubsub' ? (
               <HubsubWireframeCarousel />
             ) : (
-              <div className="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
-                <span className="text-gray-400">Wireframe sketches and concepts</span>
+              <div className="bg-muted h-64 rounded-lg flex items-center justify-center">
+                <span className="text-muted-foreground">Wireframe sketches and concepts</span>
               </div>
             )}
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Testing & Iteration</h3>
-            <p className="text-gray-600 leading-relaxed mb-4">{project.development.iterations}</p>
-            <div className="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
-              <span className="text-gray-400">Iteration progression and testing results</span>
+            <h3 className="text-xl font-semibold text-foreground mb-3">Testing & Iteration</h3>
+            <p className="text-muted-foreground leading-relaxed mb-4">{project.development.iterations}</p>
+            <div className="bg-muted h-64 rounded-lg flex items-center justify-center">
+              <span className="text-muted-foreground">Iteration progression and testing results</span>
             </div>
           </div>
         </div>
@@ -458,22 +458,22 @@ export function ProjectDetail() {
 
       {/* Finished Prototype Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">Finished Prototype</h2>
-        <div className="bg-white p-8 rounded-xl shadow-sm">
-          <p className="text-gray-600 leading-relaxed mb-6">{project.prototype.description}</p>
+        <h2 className="text-3xl font-bold text-foreground mb-8">Finished Prototype</h2>
+        <div className="bg-card p-8 rounded-xl shadow-sm">
+          <p className="text-muted-foreground leading-relaxed mb-6">{project.prototype.description}</p>
 
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Features</h3>
+          <h3 className="text-xl font-semibold text-foreground mb-4">Key Features</h3>
           <ul className="space-y-3 mb-8">
             {project.prototype.features.map((feature, index) => (
               <li key={index} className="flex items-start">
-                <span className="text-orange-600 mr-3">✓</span>
-                <span className="text-gray-600">{feature}</span>
+                <span className="text-brand mr-3">✓</span>
+                <span className="text-muted-foreground">{feature}</span>
               </li>
             ))}
           </ul>
 
           {figmaEmbedUrl ? (
-            <div className="bg-gray-100 h-96 rounded-lg overflow-hidden mb-6 border border-gray-200">
+            <div className="bg-muted h-96 rounded-lg overflow-hidden mb-6 border border-border">
               <iframe
                 src={figmaEmbedUrl}
                 title={`${project.title} prototype preview`}
@@ -486,20 +486,20 @@ export function ProjectDetail() {
               href={project.prototype.link}
               target="_blank"
               rel="noreferrer"
-              className="bg-gray-100 h-96 rounded-lg flex items-center justify-center mb-6 hover:bg-gray-200 transition-colors"
+              className="bg-muted h-96 rounded-lg flex items-center justify-center mb-6 hover:bg-muted/80 transition-colors"
             >
-              <span className="text-gray-500">Interactive prototype preview (click to open)</span>
+              <span className="text-muted-foreground">Interactive prototype preview (click to open)</span>
             </a>
           ) : (
-            <div className="bg-gray-100 h-96 rounded-lg flex items-center justify-center mb-6">
-              <span className="text-gray-400">Interactive prototype preview</span>
+            <div className="bg-muted h-96 rounded-lg flex items-center justify-center mb-6">
+              <span className="text-muted-foreground">Interactive prototype preview</span>
             </div>
           )}
 
           <div className="flex gap-4">
             <a
               href={project.prototype.link}
-              className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+              className="px-6 py-3 bg-brand-deep text-white rounded-lg hover:bg-brand-hover transition-colors"
             >
               View Interactive Prototype
             </a>

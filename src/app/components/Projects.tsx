@@ -20,7 +20,7 @@ const projects: Project[] = [
     title: 'Conceptualize and Refine a Small Business Subscription Platform',
     description: 'Concept and UX work for a subscription platform that helps small businesses launch, manage, and grow recurring revenue offerings.',
     tags: ['Product Design', 'UX Research', 'Figma'],
-    color: 'from-orange-500 to-red-500',
+    color: 'from-brand-light to-brand',
     image: hubsubLogo
   },
   {
@@ -29,7 +29,7 @@ const projects: Project[] = [
     title: 'Launch a Community Camping Event Website',
     description: 'End-to-end website design for a community camping event, making registration, schedules, and campsite information easy to access on any device.',
     tags: ['Event UX', 'Information Architecture', 'Figma'],
-    color: 'from-amber-500 to-orange-500',
+    color: 'from-violet-400 to-brand',
     image: furwoodCover
   },
   {
@@ -38,7 +38,7 @@ const projects: Project[] = [
     title: 'Designing an Interactive E-Commerce Platform for Hot Sauce Sales',
     description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
     tags: ['E-commerce UX', 'Figma', 'Conversion Design'],
-    color: 'from-red-500 to-rose-500',
+    color: 'from-brand to-brand-deep',
     image: hotSauceImage
   }
 ];
@@ -47,10 +47,10 @@ export function Projects() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <div className="text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
           My Projects
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-xl text-foreground max-w-2xl mx-auto">
           A collection of work showcasing my UX design skills and process
         </p>
       </div>
@@ -60,7 +60,7 @@ export function Projects() {
           <Link
             key={project.id}
             to={`/projects/${project.slug}`}
-            className="group relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+            className="group relative bg-card border border-border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
           >
             <div className={`absolute top-0 left-0 right-0 h-2 bg-gradient-to-r ${project.color}`} />
 
@@ -84,18 +84,18 @@ export function Projects() {
                 alt={project.title}
                 className={
                   project.slug === 'Hubsub'
-                    ? 'w-full h-48 object-contain bg-white p-6'
+                    ? 'w-full h-48 object-contain bg-card p-6'
                     : 'w-full h-48 object-cover'
                 }
               />
             )}
 
             <div className="p-6">
-              <h3 className="font-semibold text-gray-900 mb-3 text-lg group-hover:text-orange-600 transition-colors">
+              <h3 className="font-semibold text-foreground mb-3 text-lg group-hover:text-brand transition-colors">
                 {project.title}
               </h3>
 
-              <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+              <p className="text-foreground text-sm mb-4 line-clamp-2">
                 {project.description}
               </p>
 
@@ -103,7 +103,7 @@ export function Projects() {
                 {project.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+                    className="px-3 py-1 bg-muted text-muted-foreground text-xs rounded-full"
                   >
                     {tag}
                   </span>
