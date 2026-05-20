@@ -13,7 +13,7 @@ export function AboutMe() {
             creative person with a passion for helping others. Throughout high school and college, I
             took many visual art classes, design-related courses, and excelled in Language-Arts and
             writing-related tasks. As a high school student I found support through a queer youth drop-in group
-            and later lead my high school&apos;s GSA club which helped me foster the same sense of
+            and later led my high school&apos;s GSA club which helped me foster the same sense of
             belonging and empowerment for others that inspired my interest in User-Experience Design.
           </p>
         </section>
