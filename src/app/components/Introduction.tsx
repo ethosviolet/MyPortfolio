@@ -19,7 +19,7 @@ export function Introduction() {
         </h1>
 
         <p className="text-xl sm:text-2xl text-foreground mb-8 max-w-2xl mx-auto">
-          UX Designer passionate about creating inclusive and engaging user experiences
+          Creating engaging experiences through inclusive design
         </p>
 
         <div className="flex flex-wrap gap-4 justify-center mb-12">
@@ -41,19 +41,19 @@ export function Introduction() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16">
           <div className="p-6 bg-card rounded-lg shadow-sm border border-border">
-            <div className="text-3xl mb-3">🎨</div>
-            <h3 className="font-semibold text-foreground mb-2">Design</h3>
-            <p className="text-muted-foreground">Creating intuitive and engaging user interfaces</p>
+            <div className="text-3xl mb-3">🤝</div>
+            <h3 className="font-semibold text-foreground mb-2">Collaborate</h3>
+            <p className="text-muted-foreground">Building better with teams, users, and stakeholders</p>
           </div>
           <div className="p-6 bg-card rounded-lg shadow-sm border border-border">
             <div className="text-3xl mb-3">✨</div>
-            <h3 className="font-semibold text-foreground mb-2">Prototyping</h3>
-            <p className="text-muted-foreground">Bringing ideas to life through interactive designs</p>
+            <h3 className="font-semibold text-foreground mb-2">Iterate</h3>
+            <p className="text-muted-foreground">Leveraging AI to quickly bring ideas to life</p>
           </div>
           <div className="p-6 bg-card rounded-lg shadow-sm border border-border">
-            <div className="text-3xl mb-3">🔍</div>
-            <h3 className="font-semibold text-foreground mb-2">Research</h3>
-            <p className="text-muted-foreground">Understanding user needs through empathy and data</p>
+            <div className="text-3xl mb-3">💬</div>
+            <h3 className="font-semibold text-foreground mb-2">Advocate</h3>
+            <p className="text-muted-foreground">Speaking up for the needs of users</p>
           </div>
         </div>
       </div>
