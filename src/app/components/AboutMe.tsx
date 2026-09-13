@@ -40,7 +40,7 @@ export function AboutMe() {
                 <li>
                   Strong background in visual art, writing, communication, and design.
                 </li>
-                <li>Basic understanding of HTML, CSS, and Javascript</li>
+                <li>Working knowledge of HTML, CSS, JavaScript, and TypeScript; I build and ship front-end code with AI-assisted development.</li>
               </ul>
             </div>
           </section>
