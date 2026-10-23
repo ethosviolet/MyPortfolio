@@ -7,6 +7,7 @@ import pomBeforeTallRow from '../../imports/hubsub_pom_before_tall_row.png';
 import pomAfterVisitTicket from '../../imports/hubsub_pom_after_visit_ticket.png';
 import pomRedeemFlash from '../../imports/hubsub_pom_redeem_flash.png';
 import pomHistory from '../../imports/hubsub_pom_history.png';
+import pomOpenTabs from '../../imports/hubsub_pom_open_tabs.png';
 
 interface Screen {
   src: string;
@@ -48,6 +49,7 @@ interface ProjectData {
   /** Optional case-study extras. Only HubSub uses these so far. */
   glance?: { label: string; value: string }[];
   researchKeyInsight?: string;
+  researchModelScreen?: Screen & { title: string; text: string };
   researchFindings?: { question: string; answer: string; decision: string }[];
   iterationsTitle?: string;
   beforeAfter?: BeforeAfter[];
@@ -95,6 +97,14 @@ const projectsData: Record<string, ProjectData> = {
     },
     researchKeyInsight:
       'The owner’s framing: think of a member’s visit like an open check at a restaurant. Items go on the tab as they’re served, any line can be voided, and everything is finalized when the check closes.',
+    researchModelScreen: {
+      title: 'The open-check model, built',
+      text:
+        'That framing became the counter’s home screen. Members who just arrived wait for a one-tap Confirm, and everyone already checked in sits on an Open Tabs list with their club, perks used, and time since check-in. Staff can jump into any tab or close it out from here.',
+      src: pomOpenTabs,
+      alt: 'POM home screen with a Just arrived list showing one member to confirm, and an Open Tabs list of three checked-in members with club, perk count, check-in time, and Close Out buttons',
+      caption: 'Open Tabs home screen with test members (recreated from the current product layout)'
+    },
     researchFindings: [
       {
         question: 'If staff accidentally redeem a full cart, how does that affect the business?',
@@ -431,6 +441,13 @@ export function ProjectDetail() {
                 <span className="block text-xs font-semibold uppercase tracking-wide text-brand mb-2">Key insight</span>
                 <p className="text-lg text-foreground leading-relaxed">{project.researchKeyInsight}</p>
               </blockquote>
+            ) : null}
+            {project.researchModelScreen ? (
+              <div className="mb-6 bg-card border border-border rounded-xl p-6">
+                <h4 className="text-lg font-semibold text-foreground mb-2">{project.researchModelScreen.title}</h4>
+                <p className="text-muted-foreground leading-relaxed mb-4">{project.researchModelScreen.text}</p>
+                <ScreenFigure screen={project.researchModelScreen} />
+              </div>
             ) : null}
             {project.researchFindings ? (
               <div className="bg-card border border-border rounded-xl p-6">
