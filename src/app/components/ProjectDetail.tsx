@@ -8,6 +8,8 @@ import pomAfterVisitTicket from '../../imports/hubsub_pom_after_visit_ticket.png
 import pomRedeemFlash from '../../imports/hubsub_pom_redeem_flash.png';
 import pomHistory from '../../imports/hubsub_pom_history.png';
 import pomOpenTabs from '../../imports/hubsub_pom_open_tabs.png';
+import figmaGiftsDrawer from '../../imports/hubsub_figma_gifts_drawer.webp';
+import figmaPreferences from '../../imports/hubsub_figma_preferences.png';
 
 interface Screen {
   src: string;
@@ -184,6 +186,18 @@ const projectsData: Record<string, ProjectData> = {
         src: pomHistory,
         alt: 'Fulfillment history sheet listing past Macro Pour redemptions with checkboxes and a Batch undo button',
         caption: 'View all time opens the member’s full history, where staff can select and batch-undo past redemptions.'
+      },
+      {
+        title: 'Gifts sorted by what happens next',
+        src: figmaGiftsDrawer,
+        alt: 'Gifts and perks drawer with cards grouped into Needs customization, Ready to order, and Already fulfilled, each showing status and perks left to redeem',
+        caption: 'Figma design: gifts are grouped into needs customization, ready to order, and already fulfilled. Once a gift is redeemed it closes out instead of triggering more survey reminders.'
+      },
+      {
+        title: 'Staff control over the grid',
+        src: figmaPreferences,
+        alt: 'Preferences modal with toggles for Member insights, Show tile colors, and Group by type, and a choice of Smart, Custom, or Default tile order',
+        caption: 'Figma design: staff pick smart, custom, or default tile order and can turn tile colors off, so the grid fits how each business works.'
       }
     ],
     testing: {
