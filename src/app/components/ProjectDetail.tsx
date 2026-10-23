@@ -55,7 +55,8 @@ interface ProjectData {
   testing?: {
     status: string;
     description: string;
-    plan: string[];
+    questions: string[];
+    method: string[];
   };
   prototypeTitle?: string;
   prototypeLinkLabel?: string;
@@ -84,7 +85,7 @@ const projectsData: Record<string, ProjectData> = {
       approach:
         'I work directly with HubSub’s lead developer as the only designer on the product. I interviewed the owner of our longest-running partner, a Seattle cidery, and turned his frustrations into a prioritized plan of changes. Then I designed the fixes in Figma, using Figma Agent to explore variations quickly, and refined them into production-ready front-end code with Cursor, shipping through Git and pull requests so the live product matches the design.',
       impact:
-        'In August 2026 I shipped a complete overhaul of the POM counter flow across four production releases. Redeeming a perk now takes one tap, every redemption shows up on a live visit ticket with its own undo, and every perk tile is the same size and color-coded by type. The redesigned counter is live at both businesses running HubSub, and a usability study with bartenders is next.'
+        'In August 2026 I shipped a complete overhaul of the POM counter flow across four production releases. Redeeming a perk now takes one tap, every redemption shows up on a live visit ticket with its own undo, and every perk tile is the same size and color-coded by type. The redesigned counter is live at both businesses running HubSub, and research into its effect on day-to-day operations is next.'
     },
     development: {
       research:
@@ -176,14 +177,21 @@ const projectsData: Record<string, ProjectData> = {
       }
     ],
     testing: {
-      status: 'In progress: on-site sessions scheduled for fall 2026',
+      status: 'Upcoming: on-site research at the cidery, fall 2026',
       description:
-        'Next I’m running moderated usability tests with bartenders at the cidery, plus a follow-up interview with the owner, to see how the redesigned counter holds up during real shifts. Results and the next round of changes will be added here.',
-      plan: [
-        '3–5 bartenders, about 20 minutes each, on the same device they use behind the bar',
-        'Realistic tasks: serve a member, fix a mis-tap, hand off a gift, correct last week’s history',
-        'Measuring task success, time on task, errors, and ease ratings (1–7)',
-        'Next: usability tests with members on the member-facing app'
+        'Next I’m going back to the cidery to learn how the redesign has changed day-to-day operations. I’ll talk with the owner and any staff who want to take part about how shifts actually run now. Findings and the next round of changes will be added here.',
+      questions: [
+        'How has the redesigned counter changed the way staff serve members during a shift?',
+        'Are member transactions faster and smoother, and where do they still slow down?',
+        'Do staff and the owner trust what HubSub records, and how are mistakes fixed now?',
+        'What are people still tracking or handling outside the app?',
+        'How do members experience the program at the bar, and has it become easier to run?'
+      ],
+      method: [
+        'Semi-structured interviews with the owner and volunteer staff',
+        'Optional walkthroughs on a test member, comparing tasks to how they worked before August',
+        'Observation during a live shift, if timing allows',
+        'Membership analytics from before and after the August release'
       ]
     },
     prototypeTitle: 'The Product',
@@ -203,7 +211,7 @@ const projectsData: Record<string, ProjectData> = {
     learned: [
       'Designing for staff during a busy shift is different from designing for customers. Speed, big targets, and easy recovery from mistakes matter more than anything else.',
       'Shipping my own front-end code taught me to design within real technical constraints and to sweat the details in the build, not just the mockup.',
-      'One honest conversation with a stakeholder reshaped the roadmap. Next, I want to hear from the bartenders and members directly.'
+      'One honest conversation with a stakeholder reshaped the roadmap. Next, I want to learn how those changes play out in real shifts, and hear from members directly.'
     ],
     roadmap: [
       'Redemption history for members, so they can see the value they get from their membership',
@@ -525,15 +533,30 @@ export function ProjectDetail() {
               {project.testing.status}
             </span>
             <p className="text-muted-foreground leading-relaxed mb-6">{project.testing.description}</p>
-            <h3 className="text-lg font-semibold text-foreground mb-3">Study plan</h3>
-            <ul className="space-y-2">
-              {project.testing.plan.map((item, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="text-brand mr-3">→</span>
-                  <span className="text-muted-foreground">{item}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="grid gap-8 md:grid-cols-2">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Research questions</h3>
+                <ol className="space-y-2">
+                  {project.testing.questions.map((item, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="text-brand mr-3 font-semibold">{index + 1}.</span>
+                      <span className="text-muted-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-3">How I’ll find out</h3>
+                <ul className="space-y-2">
+                  {project.testing.method.map((item, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="text-brand mr-3">→</span>
+                      <span className="text-muted-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
       ) : null}
