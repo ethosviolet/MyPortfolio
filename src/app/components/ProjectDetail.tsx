@@ -48,7 +48,8 @@ interface ProjectData {
   };
   /** Optional case-study extras. Only HubSub uses these so far. */
   glance?: { label: string; value: string }[];
-  researchInsights?: string[];
+  researchKeyInsight?: string;
+  researchFindings?: { question: string; answer: string; decision: string }[];
   iterationsTitle?: string;
   beforeAfter?: BeforeAfter[];
   supportingScreens?: (Screen & { title: string })[];
@@ -60,6 +61,7 @@ interface ProjectData {
   prototypeTitle?: string;
   prototypeLinkLabel?: string;
   learned?: string[];
+  roadmap?: string[];
 }
 
 const projectsData: Record<string, ProjectData> = {
@@ -87,17 +89,43 @@ const projectsData: Record<string, ProjectData> = {
     },
     development: {
       research:
-        'Once the platform reached a stable point, I wrote an interview guide and sat down with the cidery’s owner, who has used HubSub with his team for years. His main complaint: the POM layout his bartenders dealt with felt confusing and incomplete. I compared his feedback against the live screens to pin down exactly where staff were getting stuck.',
+        'In August 2026, before a key release, I wrote a set of targeted questions about the open design decisions blocking it and interviewed the cidery’s owner, who has used HubSub with his team for years. I synthesized his answers into a response analysis, separating the decisions we could act on right away from member-side ideas for later. His overall verdict: the counter layout his bartenders dealt with felt confusing and incomplete, and speed mattered more than anything.',
       wireframes:
         'Earlier in the project I mapped user flows and built wireframes for the member-facing app (feed, subscriptions, perks, merch, events, and checkout). That work set up the structure the counter tools plug into. Today I also use AI tools like Figma Agent and Cursor to explore variations quickly before committing to a direction.',
       iterations:
-        'The owner’s feedback led to a complete overhaul of how the counter looks and works, not surface tweaks. Each change below targets a moment staff actually ran into. Some ideas didn’t survive: we tried requiring a check-in before any pour could be queued, but it added a step to every order. We replaced it with automatic check-in, so tapping a pour for an active member checks them in and orders the pour together.',
+        'The interview led to a complete overhaul of how the counter looks and works, not surface tweaks. Each change below traces back to something the owner told us. One example: he was adamant that a separate check-in step before each pour had to go. Now tapping a pour for an active member checks them in and orders the pour in one motion.',
     },
-    researchInsights: [
-      'Taps went into a staging “Cart” and nothing was saved until staff pressed “Redeem N perks,” which added an extra confirm step to every order.',
-      'A mis-tap sat in the cart as “×3” with no timestamp and no way to undo a single line.',
-      'Visit pours were forced onto a taller first row, so tiles were different-sized tap targets and staff display settings were overridden.',
-      'Tiles showed the full program description instead of a short, scannable label.'
+    researchKeyInsight:
+      'The owner’s framing: think of a member’s visit like an open check at a restaurant. Items go on the tab as they’re served, any line can be voided, and everything is finalized when the check closes.',
+    researchFindings: [
+      {
+        question: 'If staff accidentally redeem a full cart, how does that affect the business?',
+        answer:
+          'Very negatively, for the customer and the business. It confuses everyone about which redemptions were real. Staff need a way to undo and to track what happened.',
+        decision: 'Per-row undo on every redemption, plus a full history with batch undo'
+      },
+      {
+        question: 'Is speed or mis-tap protection more important at the counter?',
+        answer: 'Speed. An undo system beats a confirmation dialog.',
+        decision: 'No confirmation pop-up. Accept the mis-tap risk and make recovery easy instead'
+      },
+      {
+        question: 'How often do staff stage more than one perk before redeeming?',
+        answer: 'Usually one at a time. Multiple perks mostly happen when a new member picks up welcome gifts.',
+        decision: 'Removed the staging cart. A tap redeems immediately onto a single “This visit” ticket'
+      },
+      {
+        question: 'If staff hand out a gift before the member finishes its survey, is the gift still open?',
+        answer:
+          'No. It’s closed the moment it’s redeemed, but the member still needs to see what they picked, and staff need a way to edit it.',
+        decision: 'Fulfilled gifts stop triggering survey reminders. Staff can record or edit the customization instead'
+      },
+      {
+        question: 'Open feedback: what would make the counter screens better?',
+        answer:
+          'The extra check-in step, and features nobody uses. The Macro Pour is the most-redeemed perk, and a select-all button isn’t needed.',
+        decision: 'Automatic check-in on tap, and a simpler grid ordered by how perks are actually used'
+      }
     ],
     iterationsTitle: 'Stakeholder Feedback & Iteration',
     beforeAfter: [
@@ -179,6 +207,12 @@ const projectsData: Record<string, ProjectData> = {
       'Designing for staff during a busy shift is different from designing for customers. Speed, big targets, and easy recovery from mistakes matter more than anything else.',
       'Shipping my own front-end code taught me to design within real technical constraints and to sweat the details in the build, not just the mockup.',
       'One honest conversation with a stakeholder reshaped the roadmap. Next, I want to hear from the bartenders and members directly.'
+    ],
+    roadmap: [
+      'Redemption history for members, so they can see the value they get from their membership',
+      'A matching check-in code shown on both the member’s phone and the counter screen, for quick verification without slowing staff down',
+      'Survey reminders for members when they check in, and the ability to fix a name, size, or typo before a gift ships',
+      'Point-of-sale integration (such as Square) to make HubSub easier for new businesses to adopt'
     ]
   },
   'furwood-campout': {
@@ -581,19 +615,42 @@ export function ProjectDetail() {
           <div>
             <h3 className="text-xl font-semibold text-foreground mb-3">Research & Discovery</h3>
             <p className="text-foreground/90 leading-relaxed mb-4">{project.development.research}</p>
-            {project.researchInsights ? (
+            {project.researchKeyInsight ? (
+              <blockquote className="mb-6 rounded-xl border-l-4 border-brand bg-card p-6">
+                <span className="block text-xs font-semibold uppercase tracking-wide text-brand mb-2">Key insight</span>
+                <p className="text-lg text-foreground leading-relaxed">{project.researchKeyInsight}</p>
+              </blockquote>
+            ) : null}
+            {project.researchFindings ? (
               <div className="bg-card border border-border rounded-xl p-6">
-                <h4 className="font-semibold text-foreground mb-4">Where staff were getting stuck</h4>
-                <ul className="space-y-3">
-                  {project.researchInsights.map((insight, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand/20 text-xs font-semibold text-brand">
-                        {index + 1}
-                      </span>
-                      <span className="text-muted-foreground">{insight}</span>
+                <h4 className="font-semibold text-foreground mb-1">From interview to decision</h4>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Answers are paraphrased from my interview notes.
+                </p>
+                <ol className="space-y-6">
+                  {project.researchFindings.map((finding, index) => (
+                    <li key={index} className="grid gap-3 md:grid-cols-3 border-t border-border pt-6 first:border-t-0 first:pt-0">
+                      <div>
+                        <span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">
+                          I asked
+                        </span>
+                        <p className="text-foreground">{finding.question}</p>
+                      </div>
+                      <div>
+                        <span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">
+                          The owner said
+                        </span>
+                        <p className="text-muted-foreground">{finding.answer}</p>
+                      </div>
+                      <div>
+                        <span className="block text-xs font-semibold uppercase tracking-wide text-brand mb-1">
+                          What we did
+                        </span>
+                        <p className="text-foreground">{finding.decision}</p>
+                      </div>
                     </li>
                   ))}
-                </ul>
+                </ol>
               </div>
             ) : (
               <div className="bg-muted h-64 rounded-lg flex items-center justify-center">
@@ -732,6 +789,23 @@ export function ProjectDetail() {
           </div>
         </div>
       </section>
+
+      {project.roadmap ? (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-4">What’s Next</h2>
+          <p className="text-foreground/90 leading-relaxed mb-6">
+            The same interview surfaced member-side ideas that are now on the roadmap:
+          </p>
+          <ul className="grid gap-4 md:grid-cols-2">
+            {project.roadmap.map((item, index) => (
+              <li key={index} className="flex items-start gap-3 bg-card border border-border rounded-xl p-5">
+                <span className="text-brand">→</span>
+                <span className="text-muted-foreground">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {project.learned ? (
         <section className="mb-16">
