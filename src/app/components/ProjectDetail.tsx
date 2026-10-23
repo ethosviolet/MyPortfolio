@@ -312,7 +312,7 @@ function ScreenFigure({ screen, tone }: { screen: Screen; tone?: 'before' | 'aft
       {tone ? (
         <span
           className={`self-start rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${
-            tone === 'after' ? 'bg-brand text-brand-deep' : 'bg-muted text-foreground'
+            tone === 'after' ? 'bg-brand text-black' : 'bg-muted text-foreground'
           }`}
         >
           {tone === 'after' ? 'After' : 'Before'}
