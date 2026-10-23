@@ -17,9 +17,9 @@ const projects: Project[] = [
   {
     id: 1,
     slug: 'Hubsub',
-    title: 'Conceptualize and Refine a Small Business Subscription Platform',
-    description: 'Concept and UX work for a subscription platform that helps small businesses launch, manage, and grow recurring revenue offerings.',
-    tags: ['Product Design', 'UX Research', 'Figma'],
+    title: 'HubSub: Redesigning the Counter Experience for a Membership Platform',
+    description: 'Sole UX designer on a live membership platform for Seattle businesses, from stakeholder interview to shipped front-end code.',
+    tags: ['Product Design', 'UX Research', 'Front-End Development'],
     color: 'from-brand-light to-brand',
     image: hubsubLogo
   },
