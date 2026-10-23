@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router';
 import hubsubLogo from '../../imports/Hubsub_logo_full.webp';
-import hubsubDigitalWireframes from '../../imports/hubsub_digital_wireframes.png';
 import furwoodCover from '../../imports/furwood_cover_test.png';
 import hotSauceImage from '../../imports/hot_sauce_customized.png';
 import pomBeforeCart from '../../imports/hubsub_pom_before_cart.png';
@@ -38,7 +36,8 @@ interface ProjectData {
   };
   development: {
     research: string;
-    wireframes: string;
+    /** Leave out to hide the Wireframes & Concepts section. */
+    wireframes?: string;
     iterations: string;
   };
   prototype: {
@@ -83,15 +82,13 @@ const projectsData: Record<string, ProjectData> = {
       challenge:
         'HubSub connects local businesses with their most loyal customers through memberships: perks like pours, merch, and gifts that members redeem in person. It serves two very different users. Members want an easy, rewarding way to support places they love. Staff need to serve those members quickly at a busy counter. The member program was running, but the screen bartenders used to redeem perks, the Point of Membership (POM), felt confusing and incomplete to the people using it every shift.',
       approach:
-        'I work directly with HubSub’s lead developer as the only designer on the product. I interviewed the owner of our longest-running partner, a Seattle cidery, and turned his frustrations into a prioritized plan of changes. Then I designed the fixes and refined them into production-ready front-end code with Cursor, shipping through Git and pull requests so the live product matches the design.',
+        'I work directly with HubSub’s lead developer as the only designer on the product. I interviewed the owner of our longest-running partner, a Seattle cidery, and turned his frustrations into a prioritized plan of changes. Then I designed the fixes in Figma, using Figma Agent to explore variations quickly, and refined them into production-ready front-end code with Cursor, shipping through Git and pull requests so the live product matches the design.',
       impact:
         'In August 2026 I shipped a complete overhaul of the POM counter flow across four production releases. Redeeming a perk now takes one tap, every redemption shows up on a live visit ticket with its own undo, and every perk tile is the same size and color-coded by type. The redesigned counter is live at both businesses running HubSub, and a usability study with bartenders is next.'
     },
     development: {
       research:
         'In August 2026, before a key release, I wrote a set of targeted questions about the open design decisions blocking it and interviewed the cidery’s owner, who has used HubSub with his team for years. I synthesized his answers into a response analysis, separating the decisions we could act on right away from member-side ideas for later. His overall verdict: the counter layout his bartenders dealt with felt confusing and incomplete, and speed mattered more than anything.',
-      wireframes:
-        'Earlier in the project I mapped user flows and built wireframes for the member-facing app (feed, subscriptions, perks, merch, events, and checkout). That work set up the structure the counter tools plug into. Today I also use AI tools like Figma Agent and Cursor to explore variations quickly before committing to a direction.',
       iterations:
         'The interview led to a complete overhaul of how the counter looks and works, not surface tweaks. Each change below traces back to something the owner told us. One example: he was adamant that a separate check-in step before each pour had to go. Now tapping a pour for an active member checks them in and orders the pour in one motion.',
     },
@@ -291,200 +288,6 @@ const projectsData: Record<string, ProjectData> = {
   }
 };
 
-interface HubsubWireframeSlide {
-  id: string;
-  src: string;
-  label: string;
-  alt: string;
-}
-
-/** Import paper wireframe images into `src/imports` and push more entries here. */
-const HUBSUB_WIREFRAME_SLIDES: HubsubWireframeSlide[] = [
-  {
-    id: 'digital',
-    src: hubsubDigitalWireframes,
-    label: 'Digital wireframe',
-    alt:
-      'HubSub mobile app digital wireframes: login, feed, subscriptions, merch, profile, perks, cart, checkout, and events'
-  }
-];
-
-function HubsubWireframeCarousel() {
-  const slides = HUBSUB_WIREFRAME_SLIDES;
-  const count = slides.length;
-  const [index, setIndex] = useState(0);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-
-  const slide = slides[index];
-
-  const go = (delta: number) => {
-    setIndex((i) => (i + delta + count) % count);
-  };
-
-  useEffect(() => {
-    if (!lightboxOpen) return;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setLightboxOpen(false);
-        return;
-      }
-      if (count <= 1) return;
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        go(-1);
-      }
-      if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        go(1);
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [lightboxOpen, count]);
-
-  return (
-    <>
-      <div
-        className="rounded-xl border border-border bg-gradient-to-b from-muted to-card/90 shadow-sm p-4 sm:p-6"
-        role="region"
-        aria-roledescription="carousel"
-        aria-label="HubSub wireframes"
-      >
-        <div className="flex items-center justify-center gap-1 sm:gap-3">
-          {count > 1 ? (
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-              aria-label="Previous wireframe"
-            >
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          ) : null}
-
-          <button
-            type="button"
-            onClick={() => setLightboxOpen(true)}
-            aria-expanded={lightboxOpen}
-            aria-controls="hubsub-wireframe-lightbox"
-            className="group mx-auto flex max-w-full flex-col items-center gap-2 rounded-xl px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-card"
-          >
-            <div className="rounded-xl border-2 border-border/80 bg-card p-2 shadow-md ring-1 ring-white/[0.08] sm:p-3">
-              <div className="flex min-h-[88px] items-center justify-center rounded-lg bg-muted px-4 py-3 sm:min-h-[100px] sm:px-5 sm:py-4">
-                <img
-                  src={slide.src}
-                  alt=""
-                  className="max-h-24 w-auto max-w-[min(42vw,9.5rem)] object-contain opacity-95 transition-opacity group-hover:opacity-100 sm:max-h-28 sm:max-w-[10.5rem]"
-                />
-              </div>
-            </div>
-            <span className="text-center text-sm font-medium text-foreground">{slide.label}</span>
-            <span className="text-center text-xs text-muted-foreground">Click frame to view full screen</span>
-          </button>
-
-          {count > 1 ? (
-            <button
-              type="button"
-              onClick={() => go(1)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-              aria-label="Next wireframe"
-            >
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          ) : null}
-        </div>
-
-        {count > 1 ? (
-          <div className="mt-4 flex flex-wrap justify-center gap-2" role="tablist" aria-label="Wireframe slides">
-            {slides.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                role="tab"
-                aria-selected={i === index}
-                onClick={() => setIndex(i)}
-                className={
-                  i === index
-                    ? 'h-2.5 w-2.5 rounded-full bg-brand shadow-sm'
-                    : 'h-2.5 w-2.5 rounded-full bg-muted-foreground/40 hover:bg-muted-foreground/60'
-                }
-                aria-label={`Show: ${s.label}`}
-              />
-            ))}
-          </div>
-        ) : null}
-      </div>
-
-      {lightboxOpen ? (
-        <div
-          id="hubsub-wireframe-lightbox"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/88 p-3 sm:p-6"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${slide.label} full screen`}
-        >
-          <div className="relative flex h-full w-full max-h-[100dvh] max-w-[100vw] items-center justify-center">
-            <button
-              type="button"
-              onClick={() => setLightboxOpen(false)}
-              className="absolute left-2 top-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-card/95 text-foreground shadow-md hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-              aria-label="Close full screen wireframe"
-            >
-              <svg
-                className="h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                aria-hidden
-              >
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-            </button>
-
-            {count > 1 ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => go(-1)}
-                  className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-card/95 text-foreground shadow-md hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:left-3"
-                  aria-label="Previous wireframe"
-                >
-                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                    <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => go(1)}
-                  className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-card/95 text-foreground shadow-md hover:bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:right-3"
-                  aria-label="Next wireframe"
-                >
-                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                    <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </>
-            ) : null}
-
-            <img src={slide.src} alt={slide.alt} className="max-h-full max-w-full object-contain" />
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
-}
-
 function ScreenFigure({ screen, tone }: { screen: Screen; tone?: 'before' | 'after' }) {
   return (
     <figure className="flex flex-col gap-2">
@@ -658,17 +461,15 @@ export function ProjectDetail() {
               </div>
             )}
           </div>
-          <div>
-            <h3 className="text-xl font-semibold text-foreground mb-3">Wireframes & Concepts</h3>
-            <p className="text-foreground/90 leading-relaxed mb-4">{project.development.wireframes}</p>
-            {projectId === 'Hubsub' ? (
-              <HubsubWireframeCarousel />
-            ) : (
+          {project.development.wireframes ? (
+            <div>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Wireframes & Concepts</h3>
+              <p className="text-foreground/90 leading-relaxed mb-4">{project.development.wireframes}</p>
               <div className="bg-muted h-64 rounded-lg flex items-center justify-center">
                 <span className="text-muted-foreground">Wireframe sketches and concepts</span>
               </div>
-            )}
-          </div>
+            </div>
+          ) : null}
           <div>
             <h3 className="text-xl font-semibold text-foreground mb-3">
               {project.iterationsTitle ?? 'Testing & Iteration'}
