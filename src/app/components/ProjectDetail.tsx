@@ -164,7 +164,7 @@ const projectsData: Record<string, ProjectData> = {
     prototypeTitle: 'The Product',
     prototype: {
       description:
-        'The redesigned counter is live in production at two Seattle businesses. Alongside it, I keep designing the member-facing app with the developer. The Figma prototype below shows that member experience.',
+        'The redesigned counter is live in production at two Seattle businesses. The Figma file below shows the Point of Membership design that staff use at the bar. Alongside it, I keep designing the member-facing app with the developer.',
       features: [
         'One-tap perk redemption with automatic check-in for active members',
         'Live “This visit” ticket with a timestamp and undo on every row',
@@ -172,9 +172,9 @@ const projectsData: Record<string, ProjectData> = {
         'Full redemption history with batch undo',
         'Designed in Figma and shipped as production front-end code'
       ],
-      link: 'https://www.figma.com/proto/U1grg4qK5GhwzIWzysZT9M/Hub-Sub-Design--Hi-Fi-?node-id=0-1&t=cDJc4XMAo4QKh95W-1'
+      link: 'https://www.figma.com/design/Q9wIN7YbQ2XGw2mZZFOyHx/HubSub-SF--Business-?node-id=732-2343&t=ISh1DJE5TuSRWe9A-0'
     },
-    prototypeLinkLabel: 'Open the Member App Prototype',
+    prototypeLinkLabel: 'Open Point of Membership Prototype',
     learned: [
       'Designing for staff during a busy shift is different from designing for customers. Speed, big targets, and easy recovery from mistakes matter more than anything else.',
       'Shipping my own front-end code taught me to design within real technical constraints and to sweat the details in the build, not just the mockup.',
