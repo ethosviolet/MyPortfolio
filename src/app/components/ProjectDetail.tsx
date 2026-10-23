@@ -83,15 +83,15 @@ const projectsData: Record<string, ProjectData> = {
     ],
     story: {
       challenge:
-        'HubSub connects local businesses with their most loyal customers through memberships: perks like pours, merch, and gifts that members redeem in person. It serves two very different users. Members want an easy, rewarding way to support places they love. Staff need to serve those members quickly at a busy counter. The member program was running, but the screen bartenders used to redeem perks, the Point of Membership (POM), felt confusing and incomplete to the people using it every shift.',
+        'HubSub runs membership programs for local businesses, where members redeem perks like pours and merch in person. The program worked, but the Point of Membership (POM) screen bartenders used to redeem perks felt confusing and incomplete.',
       approach:
-        'I work directly with HubSub’s lead developer as the only designer on the product. I interviewed the owner of our longest-running partner, a Seattle cidery, and turned his frustrations into a prioritized plan of changes. Then I designed the fixes in Figma, using Figma Agent to explore variations quickly, and refined them into production-ready front-end code with Cursor, shipping through Git and pull requests so the live product matches the design.',
+        'As HubSub’s only designer, I work directly with our lead developer. I interviewed our longest-running partner, turned his feedback into a plan, designed the fixes in Figma, and shipped them as front-end code with Cursor.',
       impact:
-        'In August 2026 I shipped a complete overhaul of the POM counter flow across four production releases. Redeeming a perk now takes one tap, every redemption shows up on a live visit ticket with its own undo, and every perk tile is the same size and color-coded by type. The redesigned counter is live at both businesses running HubSub, and research into its effect on day-to-day operations is next.'
+        'Four production releases in August 2026 overhauled the counter: one-tap redemption, a live visit ticket with undo on every line, and a consistent, color-coded tile grid. It’s live at both businesses using HubSub.'
     },
     development: {
       research:
-        'In August 2026, before a key release, I wrote a set of targeted questions about the open design decisions blocking it and interviewed the cidery’s owner, who has used HubSub with his team for years. I synthesized his answers into a response analysis, separating the decisions we could act on right away from member-side ideas for later. His overall verdict: the counter layout his bartenders dealt with felt confusing and incomplete, and speed mattered more than anything.',
+        'Before a key release, I interviewed the owner of a Seattle cidery that has used HubSub for years, with targeted questions about the decisions blocking launch. His verdict: the counter felt confusing, and speed mattered most.',
       iterations:
         'The interview led to a complete overhaul of how the counter looks and works, not surface tweaks. Each change below traces back to something the owner told us. One example: he was adamant that a separate check-in step before each pour had to go. Now tapping a pour for an active member checks them in and orders the pour in one motion.',
     },
