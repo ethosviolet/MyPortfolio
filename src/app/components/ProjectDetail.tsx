@@ -59,6 +59,7 @@ interface ProjectData {
   beforeAfter?: BeforeAfter[];
   supportingScreens?: (Screen & { title: string })[];
   testing?: {
+    title: string;
     status: string;
     description: string;
     questions: string[];
@@ -97,7 +98,7 @@ const projectsData: Record<string, ProjectData> = {
       research:
         'Before a key release, I interviewed the owner of a Seattle cidery that has used HubSub for years, with targeted questions about the decisions blocking launch. His verdict: the counter felt confusing, and speed mattered most.',
       iterations:
-        'The interview led to a complete overhaul of how the counter looks and works, not surface tweaks. Each change below traces back to something the owner told us. One example: he was adamant that a separate check-in step before each pour had to go. Now tapping a pour for an active member checks them in and orders the pour in one motion.',
+        'The interview led to a complete overhaul of how the counter looks and works, not surface tweaks. Each change below traces back to something the owner told us. One example: he was adamant that a separate check-in step before each pour had to go. Now a member waiting at check-in is confirmed by their first pour, so staff skip the extra step.',
     },
     researchKeyInsight:
       'The owner’s framing: think of a member’s visit like an open check at a restaurant. Items go on the tab as they’re served, any line can be voided, and everything is finalized when the check closes.',
@@ -130,13 +131,13 @@ const projectsData: Record<string, ProjectData> = {
         question: 'If staff hand out a gift before the member finishes its survey, is the gift still open?',
         answer:
           'No. It’s closed the moment it’s redeemed, but the member still needs to see what they picked, and staff need a way to edit it.',
-        decision: 'Fulfilled gifts stop triggering survey reminders. Staff can record or edit the customization instead'
+        decision: 'A gift closes when it’s redeemed and stops triggering survey reminders. Members can update their customization themselves, and staff see the latest request on the perk card'
       },
       {
         question: 'Open feedback: what would make the counter screens better?',
         answer:
           'The extra check-in step, and features nobody uses. The Macro Pour is the most-redeemed perk, and a select-all button isn’t needed.',
-        decision: 'Automatic check-in on tap, and a simpler grid ordered by how perks are actually used'
+        decision: 'The first pour confirms a pending check-in, and the grid dropped select-all'
       }
     ],
     iterationsTitle: 'Stakeholder Feedback & Iteration',
@@ -203,21 +204,22 @@ const projectsData: Record<string, ProjectData> = {
       }
     ],
     testing: {
-      status: 'Upcoming: on-site research at the cidery, fall 2026',
+      title: 'Follow-Up Interview',
+      status: 'Scheduled: October 28, 2026',
       description:
-        'Next I’m going back to the cidery to learn how the redesign has changed day-to-day operations. I’ll talk with the owner and any staff who want to take part about how shifts actually run now. Findings and the next round of changes will be added here.',
+        'Two months after launch, I’m sitting down with the owner for an in-depth follow-up on how the update actually landed. We’ll go through each live change: where it helped, where it didn’t, and what’s still unfinished for his team and for members. Findings and the next round of changes will be added here.',
       questions: [
-        'How has the redesigned counter changed the way staff serve members during a shift?',
-        'Are member transactions faster and smoother, and where do they still slow down?',
-        'Do staff and the owner trust what HubSub records, and how are mistakes fixed now?',
-        'What are people still tracking or handling outside the app?',
-        'How do members experience the program at the bar, and has it become easier to run?'
+        'How has running the membership program felt since the update went live, and where is a busy night different?',
+        'For each of the six live changes, did it help the work, and where does it still fall short?',
+        'How intuitive were the new screens for bartenders, and what did they trip on in their first live shifts?',
+        'What business-side work still happens outside the app?',
+        'What do members still run into that this update didn’t change?'
       ],
       method: [
-        'Semi-structured interviews with the owner and volunteer staff',
-        'Optional walkthroughs on a test member, comparing tasks to how they worked before August',
-        'Observation during a live shift, if timing allows',
-        'Membership analytics from before and after the August release'
+        'A 45–60 minute semi-structured interview with the owner',
+        'One section per live change, asking for a recent real example of each',
+        'The owner’s view of how staff adapted, and how they’d like the next rollout handled',
+        'An optional walkthrough on a test member if an answer stays vague'
       ]
     },
     prototypeTitle: 'The Product',
@@ -225,8 +227,9 @@ const projectsData: Record<string, ProjectData> = {
       description:
         'The redesigned counter is live in production at two Seattle businesses. The Figma file below shows the Point of Membership design that staff use at the bar. Alongside it, I keep designing the member-facing app with the developer.',
       features: [
-        'One-tap perk redemption with automatic check-in for active members',
+        'One-tap perk redemption, with undo that still works after the visit closes',
         'Live “This visit” ticket with a timestamp and undo on every row',
+        'A member’s first pour confirms their check-in, so staff skip a step',
         'Uniform, color-coded perk grid that follows staff display settings',
         'Full redemption history with batch undo',
         'Designed in Figma and shipped as production front-end code'
@@ -574,7 +577,7 @@ export function ProjectDetail() {
 
       {project.testing ? (
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">Usability Testing</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-8">{project.testing.title}</h2>
           <div className="bg-card border border-dashed border-brand/50 rounded-xl p-6 sm:p-8">
             <span className="inline-block rounded-full bg-brand/20 px-3 py-1 text-xs font-semibold text-brand mb-4">
               {project.testing.status}
