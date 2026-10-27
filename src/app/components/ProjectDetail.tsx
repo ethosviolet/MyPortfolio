@@ -48,6 +48,8 @@ interface ProjectData {
     features: string[];
     link: string;
   };
+  /** Hides the case study behind a coming-soon page until it's written. */
+  draft?: boolean;
   /** Optional case-study extras. Only HubSub uses these so far. */
   glance?: { label: string; value: string }[];
   researchKeyInsight?: string;
@@ -246,6 +248,7 @@ const projectsData: Record<string, ProjectData> = {
   },
   'furwood-campout': {
     id: 2,
+    draft: true,
     title: 'Launch a Community Camping Event Website',
     description:
       'End-to-end website design for a community camping event, making registration, schedules, and campsite information easy to access on any device.',
@@ -283,6 +286,7 @@ const projectsData: Record<string, ProjectData> = {
   },
   'custom-caliente': {
     id: 3,
+    draft: true,
     title: 'Designing an Interactive E-Commerce Platform for Hot Sauce Sales',
     description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
     tags: ['E-commerce UX', 'Figma', 'Conversion Design'],
@@ -356,6 +360,18 @@ export function ProjectDetail() {
     hasPrototypeLink && project?.prototype.link.includes('figma.com')
       ? `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(project.prototype.link)}`
       : null;
+
+  if (project?.draft) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-3xl font-bold text-foreground mb-4">{project.title}</h1>
+        <p className="text-foreground/90 mb-6">This case study is coming soon.</p>
+        <Link to="/projects" className="text-brand hover:text-brand-hover">
+          ← Back to Projects
+        </Link>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
@@ -637,7 +653,7 @@ export function ProjectDetail() {
           <div className="flex gap-4">
             <a
               href={project.prototype.link}
-              className="px-6 py-3 bg-brand-deep text-white rounded-lg hover:bg-brand-hover transition-colors"
+              className="px-6 py-3 bg-brand-deep text-black font-medium rounded-lg hover:bg-brand-hover transition-colors"
             >
               {project.prototypeLinkLabel ?? 'View Interactive Prototype'}
             </a>

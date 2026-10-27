@@ -11,6 +11,8 @@ interface Project {
   tags: string[];
   color: string;
   image: string;
+  /** Drafts stay out of the list until their case study is written. */
+  draft?: boolean;
 }
 
 const projects: Project[] = [
@@ -30,7 +32,8 @@ const projects: Project[] = [
     description: 'End-to-end website design for a community camping event, making registration, schedules, and campsite information easy to access on any device.',
     tags: ['Event UX', 'Information Architecture', 'Figma'],
     color: 'from-violet-400 to-brand',
-    image: furwoodCover
+    image: furwoodCover,
+    draft: true
   },
   {
     id: 3,
@@ -39,11 +42,14 @@ const projects: Project[] = [
     description: 'Interactive e-commerce experience for discovering, comparing, and purchasing craft hot sauces with confidence.',
     tags: ['E-commerce UX', 'Figma', 'Conversion Design'],
     color: 'from-brand to-brand-deep',
-    image: hotSauceImage
+    image: hotSauceImage,
+    draft: true
   }
 ];
 
 export function Projects() {
+  const published = projects.filter((project) => !project.draft);
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <div className="text-center mb-12">
@@ -51,12 +57,18 @@ export function Projects() {
           My Projects
         </h1>
         <p className="text-xl text-foreground max-w-2xl mx-auto">
-          A collection of work showcasing my UX design skills and process
+          Case studies covering research, design, and shipped code
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
+      <div
+        className={
+          published.length === 1
+            ? 'grid grid-cols-1 gap-6 max-w-xl mx-auto'
+            : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
+        }
+      >
+        {published.map((project) => (
           <Link
             key={project.id}
             to={`/projects/${project.slug}`}

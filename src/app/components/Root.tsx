@@ -11,7 +11,7 @@ export function Root() {
         <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="text-xl font-semibold text-foreground">
-              Portfolio
+              Jacob Hobzek
             </Link>
             <div className="flex gap-6">
               <Link
