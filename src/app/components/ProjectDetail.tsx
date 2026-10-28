@@ -10,6 +10,11 @@ import pomHistory from '../../imports/hubsub_pom_history.png';
 import pomOpenTabs from '../../imports/hubsub_pom_open_tabs.png';
 import figmaGiftsDrawer from '../../imports/hubsub_figma_gifts_drawer.webp';
 import figmaPreferences from '../../imports/hubsub_figma_preferences.png';
+import dsOverview from '../../imports/hubsub_ds_overview.webp';
+import dsColors from '../../imports/hubsub_ds_colors.webp';
+import dsType from '../../imports/hubsub_ds_type.webp';
+import dsButtons from '../../imports/hubsub_ds_buttons.webp';
+import dsBadges from '../../imports/hubsub_ds_badges.webp';
 
 interface Screen {
   src: string;
@@ -58,6 +63,14 @@ interface ProjectData {
   iterationsTitle?: string;
   beforeAfter?: BeforeAfter[];
   supportingScreens?: (Screen & { title: string })[];
+  designSystem?: {
+    title: string;
+    intro: string;
+    points: string[];
+    overview: Screen;
+    foundations: Screen[];
+    components: Screen[];
+  };
   testing?: {
     title: string;
     status: string;
@@ -203,6 +216,45 @@ const projectsData: Record<string, ProjectData> = {
         caption: 'Figma design: staff pick smart, custom, or default tile order and can turn tile colors off, so the grid fits how each business works.'
       }
     ],
+    designSystem: {
+      title: 'Design System',
+      intro:
+        'With one developer, two businesses, and screens changing every week, I needed a way to stay consistent without redesigning from scratch. I built a design system in Figma for the counter: color, type, buttons, status badges, and the components staff use during a shift.',
+      points: [
+        'Same values in design and code. The Figma color styles match the app’s theme (orange #ffa101 is the primary action in both), and type is Inter on the same size scale.',
+        'Color carries meaning. Orange is the main action, red closes or undoes, and each perk type gets its own tile color with a legend, so staff can read the grid at a glance.',
+        'Built once, reused everywhere. New screens like Preferences and the gifts drawer were assembled from existing tabs, toggles, tiles, and buttons.'
+      ],
+      overview: {
+        src: dsOverview,
+        alt: 'POM design system components assembled: member header, navigation tabs, color-coded perk tiles with a legend, the gifts and perks table, the This visit ticket, and the Preferences modal',
+        caption: 'The system put together: member header, tabs, color-coded perk tiles, the gifts table, the This visit ticket, and Preferences.'
+      },
+      foundations: [
+        {
+          src: dsColors,
+          alt: 'Color palette with named tokens for backgrounds, text, accent, brand, borders, and semantic colors, each with its hex value',
+          caption: 'Color tokens named by role: background, text, accent, brand, border, and semantic.'
+        },
+        {
+          src: dsType,
+          alt: 'Typography scale in Inter from Heading 1 at 32px down to Caption and Overline at 11px',
+          caption: 'Type scale: Inter, from 32px headings down to 11px captions.'
+        }
+      ],
+      components: [
+        {
+          src: dsButtons,
+          alt: 'Button variants: orange Primary Action, Secondary, red Destructive, Ghost, Outline, and Muted',
+          caption: 'Button variants, from the orange primary action to red destructive.'
+        },
+        {
+          src: dsBadges,
+          alt: 'Status badges for Active, Cancelled, Pending, Info, and Warning, plus an orange count badge',
+          caption: 'Status badges for memberships and gifts, plus the orange count badge used on tabs and tiles.'
+        }
+      ]
+    },
     testing: {
       title: 'Follow-Up Interview',
       status: 'Scheduled: October 28, 2026',
@@ -347,6 +399,24 @@ function ScreenFigure({ screen, tone }: { screen: Screen; tone?: 'before' | 'aft
         aria-label={`Open full size: ${screen.alt}`}
       >
         <img src={screen.src} alt={screen.alt} className="w-full h-64 sm:h-72 object-contain" loading="lazy" />
+      </a>
+      <figcaption className="text-sm text-muted-foreground">{screen.caption}</figcaption>
+    </figure>
+  );
+}
+
+/** Design system frames keep their own proportions instead of the fixed-height screen box. */
+function SystemFigure({ screen }: { screen: Screen }) {
+  return (
+    <figure className="flex flex-col gap-2">
+      <a
+        href={screen.src}
+        target="_blank"
+        rel="noreferrer"
+        className="block overflow-hidden rounded-lg border border-border focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+        aria-label={`Open full size: ${screen.alt}`}
+      >
+        <img src={screen.src} alt={screen.alt} className="w-full h-auto" loading="lazy" />
       </a>
       <figcaption className="text-sm text-muted-foreground">{screen.caption}</figcaption>
     </figure>
@@ -574,6 +644,38 @@ export function ProjectDetail() {
           </div>
         </div>
       </section>
+
+      {project.designSystem ? (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">{project.designSystem.title}</h2>
+          <p className="text-foreground/90 leading-relaxed mb-6">{project.designSystem.intro}</p>
+          <ul className="grid gap-4 md:grid-cols-3 mb-8">
+            {project.designSystem.points.map((point) => {
+              const [lead, ...rest] = point.split('. ');
+              return (
+                <li key={point} className="bg-card border border-border rounded-xl p-5 text-sm leading-relaxed">
+                  <span className="block font-semibold text-foreground mb-1">{lead}.</span>
+                  <span className="text-muted-foreground">{rest.join('. ')}</span>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="space-y-6">
+            <SystemFigure screen={project.designSystem.overview} />
+            <div className="grid gap-6 md:grid-cols-2 items-start">
+              {project.designSystem.foundations.map((screen) => (
+                <SystemFigure key={screen.caption} screen={screen} />
+              ))}
+            </div>
+            <div className="grid gap-6 md:grid-cols-2 items-start">
+              {project.designSystem.components.map((screen) => (
+                <SystemFigure key={screen.caption} screen={screen} />
+              ))}
+            </div>
+            <p className="text-xs text-foreground/80">Frames from my Figma file. Click any image to view it full size.</p>
+          </div>
+        </section>
+      ) : null}
 
       {project.testing ? (
         <section className="mb-16">
