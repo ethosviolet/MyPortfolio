@@ -1,3 +1,34 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+
+/* Home page load sequence. Each element sets --delay inline. */
+@keyframes reveal-fade {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-side {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+/* "backwards" holds the start state during the delay, then hands transform back to the element so hover effects still work. */
+.reveal-fade,
+.reveal-side,
+.reveal-up {
+  animation-duration: 1000ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: backwards;
+  animation-delay: var(--delay, 0ms);
+}
+.reveal-fade { animation-name: reveal-fade; animation-duration: 1300ms; }
+.reveal-side { animation-name: reveal-side; }
+.reveal-up { animation-name: reveal-up; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal-fade,
+  .reveal-side,
+  .reveal-up { animation: none; }
+}
