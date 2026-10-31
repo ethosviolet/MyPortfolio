@@ -30,6 +30,11 @@ import userBeforeSignon from '../../imports/hubsub_user_live_before_signon.png';
 import userAfterSignon from '../../imports/hubsub_user_live_after_signon.png';
 import userSignonPending from '../../imports/hubsub_user_live_signon_pending.png';
 import userPaletteOptions from '../../imports/hubsub_user_palette_options.png';
+import userDsFoundations from '../../imports/hubsub_user_ds_foundations.png';
+import userDsNavigation from '../../imports/hubsub_user_ds_navigation.png';
+import userDsActions from '../../imports/hubsub_user_ds_actions.png';
+import userDsCards from '../../imports/hubsub_user_ds_cards.png';
+import userDsFooter from '../../imports/hubsub_user_ds_footer.png';
 
 interface Screen {
   src: string;
@@ -43,6 +48,17 @@ interface BeforeAfter {
   change: string;
   before: Screen;
   after: Screen;
+}
+
+interface DesignSystem {
+  title: string;
+  intro: string;
+  points: string[];
+  overview: Screen;
+  foundations: Screen[];
+  components: Screen[];
+  /** Small line under the images. Defaults to the Figma note. */
+  note?: string;
 }
 
 interface ProjectData {
@@ -80,14 +96,8 @@ interface ProjectData {
   iterationsTitle?: string;
   beforeAfter?: BeforeAfter[];
   supportingScreens?: (Screen & { title: string })[];
-  designSystem?: {
-    title: string;
-    intro: string;
-    points: string[];
-    overview: Screen;
-    foundations: Screen[];
-    components: Screen[];
-  };
+  /** One section, or several shown one after another. */
+  designSystem?: DesignSystem | DesignSystem[];
   testing?: {
     title: string;
     status: string;
@@ -495,7 +505,47 @@ const projectsData: Record<string, ProjectData> = {
         caption: 'The same calendar on a phone, with the selected event stacked under the month.'
       }
     ],
-    designSystem: {
+    designSystem: [
+      {
+        title: 'Design System',
+        intro:
+          'To keep every account screen consistent across two themes and two screen sizes, I documented a design system for the member hub in Figma: color roles, type, spacing, radii, and the patterns each section is built from. Shared main components drive the header, tabs, and footer across all ten account reference frames.',
+        points: [
+          'Eight core tokens. Canvas, surface, raised, border, text, muted, brand, and active. Amber is saved for active states and primary actions.',
+          'One typeface, one exception. Inter carries the interface on a six-step scale. Menlo is kept for identity strings like email addresses.',
+          'Edit once, update everywhere. Linked main components for the navbar, tabs, header, and footer update every account frame when I change them.'
+        ],
+        overview: {
+          src: userDsFoundations,
+          alt: 'Foundations page: eight color roles with hex values, a type scale from Display 40 to Label 11, a 4px spacing scale, radii, and border and elevation styles',
+          caption: 'Foundations: color roles, type scale, spacing, radii, and borders.'
+        },
+        foundations: [
+          {
+            src: userDsNavigation,
+            alt: 'Header, title and tabs patterns: the red brand header on desktop and mobile, the My account title with five tabs on desktop and mobile, and passive, active, and focus tab states',
+            caption: 'Header, title, and tabs on desktop and mobile, with passive, active, and keyboard focus states.'
+          },
+          {
+            src: userDsActions,
+            alt: 'Button hierarchy with amber primary, grey secondary, and red destructive buttons, plus status badges for Active, Pending, Cancelled, Primary, Recovery, and Unverified',
+            caption: 'Buttons and status badges: amber for the next step, grey for secondary actions, red for destructive ones.'
+          }
+        ],
+        components: [
+          {
+            src: userDsCards,
+            alt: 'Gift perks and surveys, wallet balance, gift codes, and event panels in the dark theme',
+            caption: 'Gift, survey, wallet, and event panels, including their empty states.'
+          },
+          {
+            src: userDsFooter,
+            alt: 'Footer and newsletter pattern compared on desktop and mobile',
+            caption: 'The footer on desktop and mobile, kept muted to separate account tasks from site content.'
+          }
+        ]
+      },
+      {
       title: 'Light & Dark Theme',
       intro:
         'In progress. The member pages had inherited the staff app’s always-dark look. I explored three Tailwind neutral palettes in Figma, each with four tokens for light and dark, and chose Zinc: true neutral grays with almost no color cast. Brand and action colors stay fixed, so only the foundation changes.',
@@ -532,8 +582,10 @@ const projectsData: Record<string, ProjectData> = {
           alt: 'Settings dialog centered over a blurred account page, with a Theme switch showing moon and sun icons and a Notifications row',
           caption: 'After: the settings gear opens a dialog with the Light/Dark switch and a link to notifications.'
         }
-      ]
-    },
+      ],
+      note: 'The palette comparison is from my Figma file. The other images are screenshots of the real code. Click any image to view it full size.'
+      }
+    ],
     testing: {
       title: 'Hearing From Members',
       status: 'Next step',
@@ -703,6 +755,7 @@ export function ProjectDetail() {
   /** Hubsub logo: full mark on white. Custom Caliente: text must stay visible; red frame fills the card. */
   const isHubsubHero = Boolean(project?.heroContain);
   const findingsLabels = project?.researchFindingsLabels ?? defaultFindingsLabels;
+  const designSystems = project?.designSystem ? ([] as DesignSystem[]).concat(project.designSystem) : [];
   const hasPrototypeLink = project?.prototype.link && project.prototype.link !== '#';
   const figmaEmbedUrl =
     hasPrototypeLink && project?.prototype.link.includes('figma.com')
@@ -918,12 +971,12 @@ export function ProjectDetail() {
         </div>
       </section>
 
-      {project.designSystem ? (
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-8">{project.designSystem.title}</h2>
-          <p className="text-foreground/90 leading-relaxed mb-6">{project.designSystem.intro}</p>
+      {designSystems.map((system) => (
+        <section key={system.title} className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">{system.title}</h2>
+          <p className="text-foreground/90 leading-relaxed mb-6">{system.intro}</p>
           <ul className="grid gap-4 md:grid-cols-3 mb-8">
-            {project.designSystem.points.map((point) => {
+            {system.points.map((point) => {
               const [lead, ...rest] = point.split('. ');
               return (
                 <li key={point} className="bg-card border border-border rounded-xl p-5 text-sm leading-relaxed">
@@ -934,23 +987,25 @@ export function ProjectDetail() {
             })}
           </ul>
           <div className="space-y-6">
-            <SystemFigure screen={project.designSystem.overview} />
+            <SystemFigure screen={system.overview} />
             <div className="grid gap-6 md:grid-cols-2 items-start">
-              {project.designSystem.foundations.map((screen) => (
+              {system.foundations.map((screen) => (
                 <SystemFigure key={screen.caption} screen={screen} />
               ))}
             </div>
-            {project.designSystem.components.length ? (
+            {system.components.length ? (
               <div className="grid gap-6 md:grid-cols-2 items-start">
-                {project.designSystem.components.map((screen) => (
+                {system.components.map((screen) => (
                   <SystemFigure key={screen.caption} screen={screen} />
                 ))}
               </div>
             ) : null}
-            <p className="text-xs text-foreground">Frames from my Figma file. Click any image to view it full size.</p>
+            <p className="text-xs text-foreground">
+              {system.note ?? 'Frames from my Figma file. Click any image to view it full size.'}
+            </p>
           </div>
         </section>
-      ) : null}
+      ))}
 
       {project.testing ? (
         <section className="mb-16">
