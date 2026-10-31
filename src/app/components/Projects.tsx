@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import hubsubLogo from '../../imports/Hubsub_logo_full.webp';
 import furwoodCover from '../../imports/furwood_cover_test.png';
 import hotSauceImage from '../../imports/hot_sauce_customized.png';
+import memberHubImage from '../../imports/hubsub_user_live_after_signon.png';
 
 interface Project {
   id: number;
@@ -24,6 +25,15 @@ const projects: Project[] = [
     tags: ['Product Design', 'UX Research', 'Front-End Development'],
     color: 'from-brand-light to-brand',
     image: hubsubLogo
+  },
+  {
+    id: 4,
+    slug: 'hubsub-member-account',
+    title: 'HubSub: Designing the Member Account Hub',
+    description: 'Redesigning the member side of HubSub. Sign-in & Security is live, with a tabbed hub, light and dark theme, Events, and mobile on the way.',
+    tags: ['Product Design', 'Theming', 'Front-End Development'],
+    color: 'from-brand to-brand-light',
+    image: memberHubImage
   },
   {
     id: 2,
@@ -97,7 +107,9 @@ export function Projects() {
                 className={
                   project.slug === 'Hubsub'
                     ? 'w-full h-48 object-contain bg-card p-6'
-                    : 'w-full h-48 object-cover'
+                    : project.slug === 'hubsub-member-account'
+                      ? 'w-full h-48 object-cover object-top'
+                      : 'w-full h-48 object-cover'
                 }
               />
             )}

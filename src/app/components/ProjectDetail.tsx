@@ -15,6 +15,21 @@ import dsColors from '../../imports/hubsub_ds_colors.webp';
 import dsType from '../../imports/hubsub_ds_type.webp';
 import dsButtons from '../../imports/hubsub_ds_buttons.webp';
 import dsBadges from '../../imports/hubsub_ds_badges.webp';
+import userBeforeAccount from '../../imports/hubsub_user_live_before_account.png';
+import userHubGifts from '../../imports/hubsub_user_live_hub_gifts.png';
+import userBeforeTheme from '../../imports/hubsub_user_live_before_theme.png';
+import userThemeLight from '../../imports/hubsub_user_live_theme_light.png';
+import userSettingsDialog from '../../imports/hubsub_user_live_settings_dialog.png';
+import userBeforeEvents from '../../imports/hubsub_user_live_before_events.png';
+import userEventsCalendar from '../../imports/hubsub_user_live_events_calendar.png';
+import userEventsCheckout from '../../imports/hubsub_user_live_events_checkout.png';
+import userEventsMobile from '../../imports/hubsub_user_live_events_mobile.png';
+import userBeforeMobileSecurity from '../../imports/hubsub_user_live_before_mobile_security.png';
+import userAfterMobileSecurity from '../../imports/hubsub_user_live_after_mobile_security.png';
+import userBeforeSignon from '../../imports/hubsub_user_live_before_signon.png';
+import userAfterSignon from '../../imports/hubsub_user_live_after_signon.png';
+import userSignonPending from '../../imports/hubsub_user_live_signon_pending.png';
+import userPaletteOptions from '../../imports/hubsub_user_palette_options.png';
 
 interface Screen {
   src: string;
@@ -60,6 +75,8 @@ interface ProjectData {
   researchKeyInsight?: string;
   researchModelScreen?: Screen & { title: string; text: string };
   researchFindings?: { question: string; answer: string; decision: string }[];
+  /** Headings for the findings table. Defaults match the owner interview. */
+  researchFindingsLabels?: { title: string; note: string; question: string; answer: string; decision: string };
   iterationsTitle?: string;
   beforeAfter?: BeforeAfter[];
   supportingScreens?: (Screen & { title: string })[];
@@ -82,7 +99,18 @@ interface ProjectData {
   prototypeLinkLabel?: string;
   learned?: string[];
   roadmap?: string[];
+  roadmapIntro?: string;
+  /** Show the hero image whole on a card background instead of cropping it. */
+  heroContain?: boolean;
 }
+
+const defaultFindingsLabels = {
+  title: 'From interview to decision',
+  note: 'Answers are paraphrased from my interview notes.',
+  question: 'I asked',
+  answer: 'The owner said',
+  decision: 'What we did'
+};
 
 const projectsData: Record<string, ProjectData> = {
   Hubsub: {
@@ -93,6 +121,7 @@ const projectsData: Record<string, ProjectData> = {
     tags: ['Product Design', 'UX Research', 'Figma', 'Front-End Development'],
     color: 'from-brand-light to-brand',
     image: hubsubLogo,
+    heroContain: true,
     glance: [
       { label: 'Role', value: 'Sole UX / Product Designer' },
       { label: 'Team', value: 'Me + Lead Software Developer' },
@@ -301,6 +330,251 @@ const projectsData: Record<string, ProjectData> = {
       'Point-of-sale integration (such as Square) to make HubSub easier for new businesses to adopt'
     ]
   },
+  'hubsub-member-account': {
+    id: 4,
+    title: 'HubSub: Designing the Member Account Hub',
+    description:
+      'As the sole UX designer, I’m redesigning the member side of HubSub. The first piece, a clearer Sign-in & Security flow, is live. A tabbed hub, a light and dark theme, Events, and a mobile layout are on the way.',
+    tags: ['Product Design', 'Theming', 'Responsive Design', 'Front-End Development'],
+    color: 'from-brand to-brand-light',
+    image: userAfterSignon,
+    heroContain: true,
+    glance: [
+      { label: 'Role', value: 'Sole UX / Product Designer' },
+      { label: 'Team', value: 'Me + Lead Software Developer' },
+      { label: 'Status', value: 'Sign-in & Security live, more in progress' },
+      { label: 'Tools', value: 'Figma, Cursor, React, Tailwind, Playwright' }
+    ],
+    story: {
+      challenge:
+        'The first problem I took on was sign-in. Members of HubSub businesses use their account to track gifts and surveys, hold gift cards, and find events, and none of that works if they can’t sign in. The old sign-in panel didn’t explain what happened when you changed an email or added a backup. Beyond sign-in, the account pages had grown piece by piece: the structure was unclear, the look was borrowed from the always-dark staff app, and the layout only really worked on desktop.',
+      approach:
+        'I started with Sign-in & Security because it blocks everything else, and shipped it first. From there I designed every account screen in Figma, in dark and light, at desktop and 585px mobile, and I’m building the rest with Cursor alongside our lead developer.',
+      impact:
+        'Sign-in & Security is live for members: a roster of sign-on methods with primary and recovery emails, Google, Apple, and Discord, and one clear message after every action. The rest is in progress: a tabbed account hub, a light and dark theme for member pages only, a new Events tab with a calendar, filters, and ticket checkout, and a mobile layout. The Events work already has 10 automated browser tests.'
+    },
+    development: {
+      research:
+        'This round started from an audit of the existing account pages in preprod and the problems they caused, not a member interview. I mapped every account screen into Figma, then explored the redesign there: each section in dark and light, desktop and mobile, plus three neutral palettes for the theme. Hearing from members directly is the next step (see below).',
+      iterations:
+        'Sign-in & Security came first, and it’s live. The rest of the account is moving through a second pass: one tab bar on every section, a light and dark theme, Events, and a real mobile layout. Each pair below puts the real code from before a change next to the code after it, captured with a fictional test member.'
+    },
+    researchKeyInsight:
+      'The member side has a different job than the counter. Staff need speed during a shift. Members need to understand what’s going on with their email, their gifts, and their next event without asking anyone at the bar.',
+    researchFindingsLabels: {
+      title: 'From audit to decision',
+      note: 'Problems I found in the existing account pages, and how each one shaped the redesign.',
+      question: 'What I found',
+      answer: 'Why it mattered',
+      decision: 'What we did'
+    },
+    researchFindings: [
+      {
+        question:
+          'The sign-in panel showed idle “we sent a link” copy and cooldown warnings, and a Connect Discord button appeared even where Discord wasn’t set up.',
+        answer: 'A member who can’t sign in can’t see their perks or gifts, and a dead button erodes trust in the rest of the page.',
+        decision:
+          'Shipped: a roster of sign-on methods with Primary, Recovery, and Verified badges, one “Check your email” message right where you acted, and providers shown only when they work.'
+      },
+      {
+        question:
+          'Everything lived on one long account page: profile, membership card, sign-in, notifications, gift codes, gift surveys, and events, stacked in a single scroll.',
+        answer: 'Members had to scroll past everything else to find the one setting they came for.',
+        decision:
+          'Split the account into My Profile, Sign-in & Security, Gifts & Surveys, and Wallet, each with its own URL. Old links still land on the right section.'
+      },
+      {
+        question: 'Member pages inherited the staff app’s always-dark look.',
+        answer: 'Staff work in a dim bar. Members open their account on their own phone, anywhere.',
+        decision:
+          'A light and dark theme scoped to member pages only. Staff screens stay dark, and each member’s choice is remembered.'
+      },
+      {
+        question: 'Events was a small card at the bottom of the account page that only showed tickets a member already had.',
+        answer: 'Members had no single place to see what’s coming up at a business or buy a ticket.',
+        decision:
+          'A new Events tab with calendar and list views, filters for free, members-only, and ticketed events, add to calendar, and checkout through HubSub’s existing Stripe flow.'
+      },
+      {
+        question: 'On a phone, each section was its own page behind a Back to account link, with the content in a card inside the page.',
+        answer: 'Nested cards waste width on a narrow screen and push content below the fold.',
+        decision:
+          'Mobile designs at 585px: a flat tab bar, edge-to-edge section cards, stacked event rows, and a single-column checkout.'
+      }
+    ],
+    iterationsTitle: 'Sign-in First, Then the Rest',
+    beforeAfter: [
+      {
+        title: 'Live: sign-in that explains itself',
+        problem:
+          'The old Account recovery page warned “Verify your email” even when the email was already verified. Choosing between a new primary and a backup address was hidden behind a checkbox, and sign-in options were split across two lists: “Other ways to sign in” and “Linked login methods.”',
+        change:
+          'One sign-on roster shows every address with Primary, Recovery, and Verified badges. Two clear buttons, Use as recovery and Make primary, replace the checkbox. Google and Discord sit in a single Connected accounts list, and the verification warning only appears when something actually needs confirming.',
+        before: {
+          src: userBeforeSignon,
+          alt: 'Old Account recovery page for a verified Google member, showing a Verify your email warning, an email field with a make-primary checkbox, Continue with Google and passkey buttons, and a separate Linked login methods list',
+          caption: 'Before: the old Account recovery page (real code from before the change, test member)'
+        },
+        after: {
+          src: userAfterSignon,
+          alt: 'Sign-in & Security tab with one verified primary email via Google, Use as recovery and Make primary buttons, Google and Discord under Connected accounts, and a Passkeys section',
+          caption: 'After: Sign-in & Security for the same test member (real code, mocked data)'
+        }
+      },
+      {
+        title: 'In progress: from one long page to a tabbed hub',
+        problem:
+          'The account was one long page. Profile, membership card, sign-in methods, notification settings, gift codes, gift surveys, and events were stacked in a single scroll, so finding one setting meant scrolling past all the others.',
+        change:
+          'One tab bar sits under My account on every section, on desktop and mobile. Each section gets the full page, so Gifts & Surveys shows how many gifts need action and gives every gift its own Finish survey button.',
+        before: {
+          src: userBeforeAccount,
+          alt: 'Old My account page as one long column: pending surveys banner, profile and membership card, profile form, sign-in methods, notification link, gift codes, gift perks and surveys, and an Events card',
+          caption: 'Before: the whole account on one page (real code from before the change, test member)'
+        },
+        after: {
+          src: userHubGifts,
+          alt: 'Account hub with five tabs and the Gifts & Surveys tab open, showing a pending surveys banner and three gifts, two with Finish survey buttons',
+          caption: 'After: Gifts & Surveys under the shared tab bar (real code, mocked data)'
+        }
+      },
+      {
+        title: 'In progress: from a ticket card to an Events tab',
+        problem:
+          'Events was a small card at the bottom of the account page. It only listed tickets a member already had, so there was no way to see what else was coming up or buy a ticket.',
+        change:
+          'A full Events tab with calendar and list views, filters for free, members-only, and ticketed events, and the selected event’s details with Buy tickets right under the month.',
+        before: {
+          src: userBeforeEvents,
+          alt: 'Old Events card titled Tickets and upcoming visits, showing one upcoming event, Harvest Dinner, with Admit 2',
+          caption: 'Before: the Events card on the old account page (real code, sample event)'
+        },
+        after: {
+          src: userEventsCalendar,
+          alt: 'Events tab in calendar view for October 2026 with filter chips and three sample events, the ticketed Harvest Dinner selected with a Buy tickets button below',
+          caption: 'After: the Events tab, calendar view (real code, sample events)'
+        }
+      },
+      {
+        title: 'In progress: a phone layout that keeps you oriented',
+        problem:
+          'On a phone, each section was its own page behind a Back to account link, with the content in a card inside the page. To move between sections, you had to go back to the start.',
+        change:
+          'A flat tab bar stays at the top of every section, so any other section is one tap away. Cards run edge to edge, giving the content the full width of the screen.',
+        before: {
+          src: userBeforeMobileSecurity,
+          alt: 'Old mobile Sign-in & Security page with a Back to account link and the sign-on details inside a rounded card',
+          caption: 'Before: Sign-in & Security on a phone (real code, test member)'
+        },
+        after: {
+          src: userAfterMobileSecurity,
+          alt: 'New mobile Sign-in & Security with a five-tab bar at the top and edge-to-edge sign-on sections',
+          caption: 'After: the same page with the tab bar and edge-to-edge layout (real code, mocked data)'
+        }
+      }
+    ],
+    supportingScreens: [
+      {
+        title: 'Live: one clear message after every action',
+        src: userSignonPending,
+        alt: 'Sign-in & Security after adding a recovery address: a new Recovery row marked Unverified with Cancel request and Request a new link buttons, and a green Check your email message',
+        caption:
+          'After pressing Use as recovery, the new address appears as its own Unverified row with Cancel request, and one green message explains what happens next.'
+      },
+      {
+        title: 'In progress: ticket checkout without new payment code',
+        src: userEventsCheckout,
+        alt: 'Event checkout for the sample Harvest Dinner with an order summary and Pay $45.00 button on the left, and ticket type and quantity on the right',
+        caption:
+          'Ticketed events open an order summary, and paying hands off to the Stripe checkout HubSub already uses. Free and members-only events get Add to calendar instead.'
+      },
+      {
+        title: 'In progress: Events on the phone',
+        src: userEventsMobile,
+        alt: 'Mobile Events tab in calendar view with filter chips and the selected Harvest Dinner stacked below the month with a Buy tickets button',
+        caption: 'The same calendar on a phone, with the selected event stacked under the month.'
+      }
+    ],
+    designSystem: {
+      title: 'Light & Dark Theme',
+      intro:
+        'In progress. The member pages had inherited the staff app’s always-dark look. I explored three Tailwind neutral palettes in Figma, each with four tokens for light and dark, and chose Zinc: true neutral grays with almost no color cast. Brand and action colors stay fixed, so only the foundation changes.',
+      points: [
+        'Four tokens, two themes. Canvas, surface, raised, and border swap between light and dark. Text, brand, and action colors stay the same.',
+        'Scoped to members. The theme only applies to account pages. The staff counter and admin screens stay dark.',
+        'Picked once, remembered. Members switch light or dark from the settings gear on any section, and the choice sticks on that device.'
+      ],
+      overview: {
+        src: userPaletteOptions,
+        alt: 'Figma frame comparing three neutral palettes, Slate, Zinc, and Gray, each with canvas, surface, raised, and border swatches for light and dark themes',
+        caption: 'Three neutral palettes compared for canvas, surface, raised, and border. Zinc (Option B) is the one I chose.'
+      },
+      foundations: [
+        {
+          src: userHubGifts,
+          alt: 'Gifts & Surveys tab in the dark theme',
+          caption: 'Gifts & Surveys in the dark theme, the default.'
+        },
+        {
+          src: userThemeLight,
+          alt: 'Gifts & Surveys tab in the light theme',
+          caption: 'The same page after switching to light. Only the neutrals change, and the orange actions stay put.'
+        }
+      ],
+      components: [
+        {
+          src: userBeforeTheme,
+          alt: 'Earlier Gifts & Surveys page with a left section menu, always dark, with no theme setting',
+          caption: 'Before: the same page was always dark, with no way to change it (real code from before the change).'
+        },
+        {
+          src: userSettingsDialog,
+          alt: 'Settings dialog centered over a blurred account page, with a Theme switch showing moon and sun icons and a Notifications row',
+          caption: 'After: the settings gear opens a dialog with the Light/Dark switch and a link to notifications.'
+        }
+      ]
+    },
+    testing: {
+      title: 'Hearing From Members',
+      status: 'Next step',
+      description:
+        'So far, member-side decisions came from the page audit and from what business owners pass along. The next round is about members themselves: what they still run into, and what they wish they could see or fix on their own.',
+      questions: [
+        'What do members still run into that this update didn’t change?',
+        'What should they be able to see or fix that they still can’t?',
+        'What do they ask staff that the app should answer?',
+        'What on the member side is fine and should stay as it is?'
+      ],
+      method: []
+    },
+    prototypeTitle: 'The Product',
+    prototype: {
+      description:
+        'Sign-in & Security is live for members, and more changes are on the way. The Figma file below shows the member account in both themes, on desktop and mobile.',
+      features: [
+        'Live: sign-on roster with primary and recovery emails, Google, Apple, and Discord',
+        'In progress: tabbed account hub with its own URL for each section',
+        'In progress: light and dark theme for member pages, chosen from a settings gear',
+        'In progress: Events tab with calendar, list, filters, add to calendar, and ticket checkout',
+        'In progress: mobile layout with flat tabs and edge-to-edge cards',
+        'Designed in Figma and built as front-end code, with automated browser tests'
+      ],
+      link: 'https://www.figma.com/design/Q9wIN7YbQ2XGw2mZZFOyHx/HubSub-SF--Business-?node-id=681-2370'
+    },
+    prototypeLinkLabel: 'Open Member Account Designs',
+    roadmapIntro: 'Member-side ideas from my owner interviews that this work didn’t cover yet:',
+    roadmap: [
+      'A history of everything a member has redeemed, so they can see what their membership is worth',
+      'Seeing the current visit on their own phone while they’re at the bar',
+      'A nudge when a gift survey is still unfinished',
+      'Editing a gift’s customization, like a name or size, until it ships'
+    ],
+    learned: [
+      'Designing for members is a different job than designing for staff. At the counter, speed wins. On the member side, clarity wins, because nobody is standing next to them to explain.',
+      'Shipping sign-in on its own first got the most important fix to members early, while the bigger account redesign keeps moving.',
+      'Account screens need every state spelled out. Most of the sign-on work was deciding what to show when an email is pending, unverified, or cancelled.'
+    ]
+  },
   'furwood-campout': {
     id: 2,
     draft: true,
@@ -400,7 +674,7 @@ function ScreenFigure({ screen, tone }: { screen: Screen; tone?: 'before' | 'aft
       >
         <img src={screen.src} alt={screen.alt} className="w-full h-64 sm:h-72 object-contain" loading="lazy" />
       </a>
-      <figcaption className="text-sm text-muted-foreground">{screen.caption}</figcaption>
+      <figcaption className="text-sm text-foreground">{screen.caption}</figcaption>
     </figure>
   );
 }
@@ -418,7 +692,7 @@ function SystemFigure({ screen }: { screen: Screen }) {
       >
         <img src={screen.src} alt={screen.alt} className="w-full h-auto" loading="lazy" />
       </a>
-      <figcaption className="text-sm text-muted-foreground">{screen.caption}</figcaption>
+      <figcaption className="text-sm text-foreground">{screen.caption}</figcaption>
     </figure>
   );
 }
@@ -427,7 +701,8 @@ export function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
   const project = projectId ? projectsData[projectId] : null;
   /** Hubsub logo: full mark on white. Custom Caliente: text must stay visible; red frame fills the card. */
-  const isHubsubHero = projectId === 'Hubsub';
+  const isHubsubHero = Boolean(project?.heroContain);
+  const findingsLabels = project?.researchFindingsLabels ?? defaultFindingsLabels;
   const hasPrototypeLink = project?.prototype.link && project.prototype.link !== '#';
   const figmaEmbedUrl =
     hasPrototypeLink && project?.prototype.link.includes('figma.com')
@@ -554,28 +829,26 @@ export function ProjectDetail() {
             ) : null}
             {project.researchFindings ? (
               <div className="bg-card border border-border rounded-xl p-6">
-                <h4 className="font-semibold text-foreground mb-1">From interview to decision</h4>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Answers are paraphrased from my interview notes.
-                </p>
+                <h4 className="font-semibold text-foreground mb-1">{findingsLabels.title}</h4>
+                <p className="text-sm text-muted-foreground mb-6">{findingsLabels.note}</p>
                 <ol className="space-y-6">
                   {project.researchFindings.map((finding, index) => (
                     <li key={index} className="grid gap-3 md:grid-cols-3 border-t border-border pt-6 first:border-t-0 first:pt-0">
                       <div>
                         <span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">
-                          I asked
+                          {findingsLabels.question}
                         </span>
                         <p className="text-foreground">{finding.question}</p>
                       </div>
                       <div>
                         <span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">
-                          The owner said
+                          {findingsLabels.answer}
                         </span>
                         <p className="text-muted-foreground">{finding.answer}</p>
                       </div>
                       <div>
                         <span className="block text-xs font-semibold uppercase tracking-wide text-brand mb-1">
-                          What we did
+                          {findingsLabels.decision}
                         </span>
                         <p className="text-foreground">{finding.decision}</p>
                       </div>
@@ -634,7 +907,7 @@ export function ProjectDetail() {
                     ))}
                   </div>
                 ) : null}
-                <p className="text-xs text-foreground/80">Click any screen to view it full size.</p>
+                <p className="text-xs text-foreground">Click any screen to view it full size.</p>
               </div>
             ) : (
               <div className="bg-muted h-64 rounded-lg flex items-center justify-center">
@@ -667,12 +940,14 @@ export function ProjectDetail() {
                 <SystemFigure key={screen.caption} screen={screen} />
               ))}
             </div>
-            <div className="grid gap-6 md:grid-cols-2 items-start">
-              {project.designSystem.components.map((screen) => (
-                <SystemFigure key={screen.caption} screen={screen} />
-              ))}
-            </div>
-            <p className="text-xs text-foreground/80">Frames from my Figma file. Click any image to view it full size.</p>
+            {project.designSystem.components.length ? (
+              <div className="grid gap-6 md:grid-cols-2 items-start">
+                {project.designSystem.components.map((screen) => (
+                  <SystemFigure key={screen.caption} screen={screen} />
+                ))}
+              </div>
+            ) : null}
+            <p className="text-xs text-foreground">Frames from my Figma file. Click any image to view it full size.</p>
           </div>
         </section>
       ) : null}
@@ -685,7 +960,7 @@ export function ProjectDetail() {
               {project.testing.status}
             </span>
             <p className="text-muted-foreground leading-relaxed mb-6">{project.testing.description}</p>
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className={project.testing.method.length ? 'grid gap-8 md:grid-cols-2' : ''}>
               <div>
                 <h3 className="text-lg font-semibold text-foreground mb-3">Research questions</h3>
                 <ol className="space-y-2">
@@ -697,17 +972,19 @@ export function ProjectDetail() {
                   ))}
                 </ol>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">How I’ll find out</h3>
-                <ul className="space-y-2">
-                  {project.testing.method.map((item, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="text-brand mr-3">→</span>
-                      <span className="text-muted-foreground">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {project.testing.method.length ? (
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-3">How I’ll find out</h3>
+                  <ul className="space-y-2">
+                    {project.testing.method.map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="text-brand mr-3">→</span>
+                        <span className="text-muted-foreground">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>
@@ -770,7 +1047,7 @@ export function ProjectDetail() {
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-4">What’s Next</h2>
           <p className="text-foreground/90 leading-relaxed mb-6">
-            The same interview surfaced member-side ideas that are now on the roadmap:
+            {project.roadmapIntro ?? 'The same interview surfaced member-side ideas that are now on the roadmap:'}
           </p>
           <ul className="grid gap-4 md:grid-cols-2">
             {project.roadmap.map((item, index) => (
