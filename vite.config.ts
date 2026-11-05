@@ -16,9 +16,10 @@ function figmaAssetResolver() {
   }
 }
 
-export default defineConfig(({ command }) => ({
-  // Use repo subpath on GitHub Pages; keep root path in local dev.
-  base: command === 'build' ? '/MyPortfolio/' : '/',
+export default defineConfig(() => ({
+  // Custom domain is served from the site root. A /MyPortfolio/ base makes
+  // the built JS and CSS 404, because those files live at /assets/.
+  base: '/',
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
