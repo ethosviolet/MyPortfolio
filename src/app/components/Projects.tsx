@@ -75,14 +75,18 @@ export function Projects() {
         className={
           published.length === 1
             ? 'grid grid-cols-1 gap-6 max-w-xl mx-auto'
-            : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
+            : 'flex flex-wrap justify-center gap-6'
         }
       >
         {published.map((project) => (
           <Link
             key={project.id}
             to={`/projects/${project.slug}`}
-            className="group relative bg-card border border-border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+            className={`group relative bg-card border border-border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 ${
+              published.length === 1
+                ? ''
+                : 'w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]'
+            }`}
           >
             <div className={`absolute top-0 left-0 right-0 h-2 bg-gradient-to-r ${project.color}`} />
 
