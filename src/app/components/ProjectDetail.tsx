@@ -634,7 +634,7 @@ const projectsData: Record<string, ProjectData> = {
     description:
       'End-to-end website design for a community camping event, making registration, schedules, and campsite information easy to access on any device.',
     tags: ['Event UX', 'Information Architecture', 'Figma'],
-    color: 'from-violet-400 to-brand',
+    color: 'from-amber-300 to-brand',
     image: furwoodCover,
     story: {
       challenge:

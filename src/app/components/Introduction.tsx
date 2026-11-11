@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
 import portrait from '../../imports/portrait_cutout.webp';
-import { LiquidLight } from './LiquidLight';
 import pomAfterVisitTicket from '../../imports/hubsub_pom_after_visit_ticket.png';
 
 const pillars = [
@@ -32,7 +31,6 @@ const reveal = (ms: number, lights: number) => ({
 export function Introduction() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14">
-      <LiquidLight />
       <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] items-center gap-8 md:gap-12 mb-16">
         <div
           data-light-source
@@ -49,7 +47,7 @@ export function Introduction() {
             className="reveal-side text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4"
             {...reveal(800, 3)}
           >
-            Hello, I'm <span className="text-glow">Jacob Hobzek</span>
+            Hello, I'm <span className="text-brand">Jacob Hobzek</span>
           </h1>
 
           <p className="reveal-side text-xl sm:text-2xl text-foreground mb-8 max-w-2xl" {...reveal(1900, 3)}>
@@ -59,14 +57,14 @@ export function Introduction() {
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <Link
               to="/projects/Hubsub"
-              className="reveal-up px-6 py-3 bg-glow text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-glow-hover transition-colors"
+              className="reveal-up px-6 py-3 bg-brand text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-brand-hover transition-colors"
               {...reveal(3200, 1)}
             >
               View My Work
             </Link>
             <a
               href="mailto:jacobhobzek@gmail.com"
-              className="reveal-up px-6 py-3 bg-glow-deep text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-glow-hover transition-colors"
+              className="reveal-up px-6 py-3 bg-brand-deep text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-brand-hover transition-colors"
               {...reveal(3450, 1)}
             >
               Get in Touch
@@ -75,7 +73,7 @@ export function Introduction() {
               href="https://www.linkedin.com/in/jacob-hobzek-87060a231/"
               target="_blank"
               rel="noopener noreferrer"
-              className="reveal-up px-6 py-3 bg-black/50 border-2 border-glow text-glow font-semibold rounded-lg backdrop-blur-sm hover:bg-glow hover:text-black transition-colors"
+              className="reveal-up px-6 py-3 bg-black/50 border-2 border-brand text-brand font-semibold rounded-lg backdrop-blur-sm hover:bg-brand hover:text-black transition-colors"
               {...reveal(3700, 1)}
             >
               LinkedIn

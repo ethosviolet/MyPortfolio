@@ -1,12 +1,13 @@
 import { Outlet, Link, useLocation } from 'react-router';
-import { Background } from './Background';
+import { LiquidLight } from './LiquidLight';
 
 export function Root() {
   const location = useLocation();
 
   return (
     <div className="min-h-screen flex flex-col relative">
-      <Background />
+      {/* Keyed by page so the light restarts and finds the new page's elements. */}
+      <LiquidLight key={location.pathname} />
       <header className="border-b border-border bg-card/90 shadow-sm backdrop-blur-md">
         <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">

@@ -3,12 +3,16 @@ import { useEffect, useRef } from 'react';
 /**
  * Animated purple light on a dark canvas for the home page.
  *
- * The light starts at the element marked `data-light-source` (the portrait).
+ * The light starts at the element marked `data-light-source` (the portrait on the
+ * home page; elsewhere, the page's first heading).
  * Each element marked `data-light` gets its own blobs of light. They leave the
  * portrait shortly before that element's reveal time (`data-light-at`, ms), so
  * the light is already pooled behind it when it fades in. Each blob keeps a
  * fixed spot behind its element and moves with the page when it scrolls, lagging
  * just a little.
+ *
+ * Pages without `data-light` markers get light behind their headings (and, on
+ * short pages, their sections) automatically, a little apart in page order.
  */
 
 type Blob = {
@@ -51,7 +55,7 @@ export function LiquidLight() {
     if (!ctx) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const source = document.querySelector('[data-light-source]');
+    const source = document.querySelector('[data-light-source]') ?? document.querySelector('main h1');
     const start = performance.now();
     const blobs: Blob[] = [];
 
@@ -85,8 +89,16 @@ export function LiquidLight() {
     }
 
     // Light that travels out to each element as it appears.
-    document.querySelectorAll('[data-light]').forEach((el) => {
-      const at = Number(el.getAttribute('data-light-at') ?? 0);
+    let targets = [...document.querySelectorAll('[data-light]')];
+    const auto = targets.length === 0;
+    if (auto) {
+      // Headings carry the light down long pages; short pages also light their sections.
+      targets = [...document.querySelectorAll('main h1, main h2')];
+      if (targets.length < 4) targets = [...document.querySelectorAll('main h1, main h2, main section')];
+      targets = targets.slice(0, 24);
+    }
+    targets.forEach((el, index) => {
+      const at = auto ? LEAD_MS + index * 220 : Number(el.getAttribute('data-light-at') ?? 0);
       const count = Number(el.getAttribute('data-light') || 2);
       for (let i = 0; i < count; i++) {
         blobs.push({
