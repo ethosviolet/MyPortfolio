@@ -54,17 +54,17 @@ export function Introduction() {
             UX/UI designer who takes products from user research to production-ready front-end code.
           </p>
 
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+          <div className="mx-auto flex max-w-xs flex-col gap-3 sm:mx-0 sm:max-w-none sm:flex-row sm:flex-wrap sm:gap-4 sm:justify-center md:justify-start">
             <Link
               to="/projects/Hubsub"
-              className="reveal-up px-6 py-3 bg-brand text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-brand-hover transition-colors"
+              className="reveal-up px-6 py-3 text-center bg-brand text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-brand-hover transition-colors"
               {...reveal(3200, 1)}
             >
               View My Work
             </Link>
             <a
               href="mailto:jacobhobzek@gmail.com"
-              className="reveal-up px-6 py-3 bg-brand-deep text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-brand-hover transition-colors"
+              className="reveal-up px-6 py-3 text-center bg-brand-deep text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-brand-hover transition-colors"
               {...reveal(3450, 1)}
             >
               Get in Touch
@@ -73,7 +73,7 @@ export function Introduction() {
               href="https://www.linkedin.com/in/jacob-hobzek-87060a231/"
               target="_blank"
               rel="noopener noreferrer"
-              className="reveal-up px-6 py-3 bg-black/50 border-2 border-brand text-brand font-semibold rounded-lg backdrop-blur-sm hover:bg-brand hover:text-black transition-colors"
+              className="reveal-up px-6 py-3 text-center bg-black/50 border-2 border-brand text-brand font-semibold rounded-lg backdrop-blur-sm hover:bg-brand hover:text-black transition-colors"
               {...reveal(3700, 1)}
             >
               LinkedIn

@@ -14,14 +14,15 @@ const slug = (text: string) =>
  * inside `container`, so new sections show up without extra setup.
  *
  * The bar scrolls away with the page like normal content until a visitor uses it.
- * After the first jump it sticks to the top of the screen as a single scrollable
- * row, and the ✕ lets them unpin it again. Each tab's arrow points toward its section.
+ * After the first jump it sticks to the top of the screen, and the ✕ lets them
+ * unpin it again. Every tab stays visible: two columns on phones, wrapping rows
+ * on wider screens. Each tab's arrow points toward its section.
  */
 export function SectionNav({ container, pageKey }: { container: RefObject<HTMLElement | null>; pageKey?: string }) {
   const [sections, setSections] = useState<Section[]>([]);
   const [pinned, setPinned] = useState(false);
   const [active, setActive] = useState<string | null>(null);
-  const listRef = useRef<HTMLUListElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const root = container.current;
@@ -32,8 +33,6 @@ export function SectionNav({ container, pageKey }: { container: RefObject<HTMLEl
       const label = heading?.textContent?.trim();
       if (!label) return;
       el.id ||= slug(label);
-      // Leaves room for the pinned bar when jumping to a section.
-      el.style.scrollMarginTop = '5.5rem';
       found.push({ id: el.id, label, el });
     });
     setSections(found);
@@ -46,10 +45,15 @@ export function SectionNav({ container, pageKey }: { container: RefObject<HTMLEl
     let frame = 0;
     const update = () => {
       frame = 0;
+      // A section counts as current once its top reaches just under the bar.
+      const line = Math.max(120, (navRef.current?.offsetHeight ?? 0) + 40);
       let current: string | null = null;
       for (const s of sections) {
-        if (s.el.getBoundingClientRect().top <= 120) current = s.id;
+        if (s.el.getBoundingClientRect().top <= line) current = s.id;
       }
+      // The last section can't scroll up to the bar, so the bottom of the page counts as reaching it.
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) current = sections[sections.length - 1].id;
       setActive(current);
     };
     const onScroll = () => {
@@ -65,39 +69,57 @@ export function SectionNav({ container, pageKey }: { container: RefObject<HTMLEl
     };
   }, [sections]);
 
-  // On narrow screens, keep the current tab visible in the pinned row.
-  useEffect(() => {
-    const list = listRef.current;
-    const tab = list?.querySelector<HTMLElement>('[aria-current]');
-    if (!list || !tab || !pinned) return;
-    const left = tab.offsetLeft - list.offsetLeft;
-    if (left < list.scrollLeft || left + tab.offsetWidth > list.scrollLeft + list.clientWidth) {
-      list.scrollTo({ left: left - 16, behavior: 'smooth' });
-    }
-  }, [active, pinned]);
-
   if (sections.length < 2) return null;
 
   const activeIndex = sections.findIndex((s) => s.id === active);
 
   const jump = (s: Section) => {
     setPinned(true);
+    // Leave room for the pinned bar, which can be several rows tall on small screens.
+    const room = (navRef.current?.offsetHeight ?? 56) + 24;
+    for (const section of sections) section.el.style.scrollMarginTop = `${room}px`;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Start loading the images above the section now, so they don't push it down as they appear.
+    container.current?.querySelectorAll('img[loading="lazy"]').forEach((img) => {
+      if (img.compareDocumentPosition(s.el) & Node.DOCUMENT_POSITION_FOLLOWING) (img as HTMLImageElement).loading = 'eager';
+    });
     s.el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    // Images that load during the scroll can push the section down, so settle on it once the scroll stops.
-    let settled = false;
-    const settle = () => {
-      if (settled) return;
-      settled = true;
-      window.removeEventListener('scrollend', settle);
-      s.el.scrollIntoView({ behavior: 'auto', block: 'start' });
+
+    // Once the scroll stops, keep the section lined up while late images finish loading.
+    // Stops after 4 seconds, or as soon as the visitor scrolls on their own.
+    let stopped = false;
+    const stop = () => {
+      stopped = true;
+      window.removeEventListener('wheel', stop);
+      window.removeEventListener('touchstart', stop);
+      window.removeEventListener('keydown', stop);
     };
-    window.addEventListener('scrollend', settle);
-    window.setTimeout(settle, 1500);
+    window.addEventListener('wheel', stop, { passive: true });
+    window.addEventListener('touchstart', stop, { passive: true });
+    window.addEventListener('keydown', stop);
+    const startedAt = performance.now();
+    const realign = () => {
+      if (stopped) return;
+      const margin = parseFloat(s.el.style.scrollMarginTop) || 0;
+      const offBy = s.el.getBoundingClientRect().top - margin;
+      if (Math.abs(offBy) > 4) window.scrollBy({ top: offBy, behavior: 'auto' });
+      if (performance.now() - startedAt < 4000) window.setTimeout(realign, 250);
+      else stop();
+    };
+    let begun = false;
+    const begin = () => {
+      if (begun) return;
+      begun = true;
+      window.removeEventListener('scrollend', begin);
+      realign();
+    };
+    window.addEventListener('scrollend', begin);
+    window.setTimeout(begin, reduceMotion ? 0 : 1200);
   };
 
   return (
     <nav
+      ref={navRef}
       aria-label="Jump to section"
       className={`mb-8 -mx-4 sm:mx-0 ${
         pinned
@@ -105,13 +127,8 @@ export function SectionNav({ container, pageKey }: { container: RefObject<HTMLEl
           : ''
       }`}
     >
-      <div className="flex items-center gap-2 px-4 py-2 sm:px-2">
-        <ul
-          ref={listRef}
-          className={`flex flex-1 gap-1.5 overflow-x-auto whitespace-nowrap [scrollbar-width:none] ${
-            pinned ? '' : 'sm:flex-wrap sm:overflow-visible'
-          }`}
-        >
+      <div className="flex items-start gap-2 px-4 py-2 sm:items-center sm:px-2">
+        <ul className="grid flex-1 grid-cols-2 gap-1.5 sm:flex sm:flex-wrap">
           {sections.map((s, index) => {
             const isActive = s.id === active;
             const isAbove = index < activeIndex;
@@ -124,14 +141,14 @@ export function SectionNav({ container, pageKey }: { container: RefObject<HTMLEl
                     jump(s);
                   }}
                   aria-current={isActive ? 'location' : undefined}
-                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+                  className={`flex w-full items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium sm:inline-flex sm:w-auto sm:text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
                     isActive
                       ? 'border-brand bg-brand text-black'
                       : 'border-border bg-card/70 text-foreground hover:border-brand hover:text-brand'
                   }`}
                 >
                   <span aria-hidden>{isActive ? '→' : isAbove ? '↑' : '↓'}</span>
-                  {s.label}
+                  <span className="truncate">{s.label}</span>
                 </a>
               </li>
             );
