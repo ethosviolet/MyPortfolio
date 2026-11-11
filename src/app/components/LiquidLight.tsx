@@ -4,11 +4,11 @@ import { useEffect, useRef } from 'react';
  * Animated purple light on a dark canvas for the home page.
  *
  * The light starts at the element marked `data-light-source` (the portrait).
- * Each element marked `data-light` sends out its own blobs of light at the time
- * in `data-light-at` (ms), matching that element's CSS reveal delay. The blobs
- * flow from the portrait to the element, then circle its edges so the light
- * wraps around it. Positions are read every frame, so the light follows the
- * page when it scrolls.
+ * Each element marked `data-light` gets its own blobs of light. They leave the
+ * portrait shortly before that element's reveal time (`data-light-at`, ms), so
+ * the light is already pooled behind it when it fades in. Each blob keeps a
+ * fixed spot behind its element and moves with the page when it scrolls, lagging
+ * just a little.
  */
 
 type Blob = {
@@ -20,31 +20,19 @@ type Blob = {
   hue: number;
   phase: number;
   speed: number;
-  /** Element this blob circles, or null to drift around the portrait. */
+  /** Element this blob sits behind, or null to drift around the portrait. */
   target: Element | null;
+  /** Where behind the target it sits, as fractions of the target's width and height. */
+  offX: number;
+  offY: number;
   launchAt: number;
   launched: boolean;
   alpha: number;
 };
 
 const BUFFER_SCALE = 0.4; // Draw at low resolution; the CSS blur hides it and keeps it fast.
-
-/** A point on the rectangle's outline (with padding), t from 0 to 1 going clockwise. */
-function pointOnOutline(r: DOMRect, pad: number, t: number) {
-  const x = r.left - pad;
-  const y = r.top - pad;
-  const w = r.width + pad * 2;
-  const h = r.height + pad * 2;
-  const perimeter = 2 * (w + h);
-  let d = (((t % 1) + 1) % 1) * perimeter;
-  if (d < w) return { x: x + d, y };
-  d -= w;
-  if (d < h) return { x: x + w, y: y + d };
-  d -= h;
-  if (d < w) return { x: x + w - d, y: y + h };
-  d -= w;
-  return { x, y: y + h - d };
-}
+const LEAD_MS = 1000; // How long before an element appears its light sets off from the portrait.
+const SCROLL_FOLLOW = 0.88; // Share of a scroll the light moves with at once; the rest catches up softly.
 
 function sourcePoint(el: Element | null) {
   if (!el) return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.4 };
@@ -88,6 +76,8 @@ export function LiquidLight() {
         phase: Math.random(),
         speed: 0.05 + Math.random() * 0.05,
         target: null,
+        offX: 0,
+        offY: 0,
         launchAt: i * 120,
         launched: false,
         alpha: 0
@@ -109,7 +99,9 @@ export function LiquidLight() {
           phase: i / count + Math.random() * 0.1,
           speed: (0.025 + Math.random() * 0.03) * (i % 2 ? -1 : 1),
           target: el,
-          launchAt: at + i * 90,
+          offX: (i + 0.5) / count,
+          offY: count > 1 ? 0.5 + (i % 2 ? 0.18 : -0.18) : 0.5,
+          launchAt: Math.max(0, at - LEAD_MS) + i * 70,
           launched: false,
           alpha: 0
         });
@@ -129,6 +121,7 @@ export function LiquidLight() {
 
     let frame = 0;
     let last = start;
+    let lastScroll = window.scrollY;
 
     const draw = (now: number) => {
       const elapsed = now - start;
@@ -136,6 +129,17 @@ export function LiquidLight() {
       last = now;
       const seconds = elapsed / 1000;
       const src = sourcePoint(source);
+
+      // Carry the light (and its trail) along with the page when it scrolls.
+      const scrollDelta = window.scrollY - lastScroll;
+      lastScroll = window.scrollY;
+      if (scrollDelta !== 0) {
+        if (!reduceMotion) {
+          ctx.globalCompositeOperation = 'copy';
+          ctx.drawImage(canvas, 0, -scrollDelta * BUFFER_SCALE);
+        }
+        for (const b of blobs) if (b.launched) b.y -= scrollDelta * SCROLL_FOLLOW;
+      }
 
       // Fade the last frame instead of clearing it, so moving light leaves a soft liquid trail.
       if (reduceMotion) {
@@ -171,11 +175,13 @@ export function LiquidLight() {
         let ty: number;
         let size: number;
         if (b.target) {
+          // A fixed spot behind the element, drifting only a few pixels.
           const r = b.target.getBoundingClientRect();
-          const p = pointOnOutline(r, 26, b.phase + (reduceMotion ? 0 : seconds * b.speed));
-          tx = p.x;
-          ty = p.y;
-          size = Math.min(130, Math.max(60, Math.min(r.width, r.height) * 0.6));
+          const drift = reduceMotion ? 0 : seconds * 0.35 + b.phase * 6;
+          tx = r.left + r.width * b.offX + Math.sin(drift) * Math.min(18, r.width * 0.05);
+          ty = r.top + r.height * b.offY + Math.cos(drift * 1.2) * Math.min(12, r.height * 0.1);
+          const count = Number(b.target.getAttribute('data-light') || 2);
+          size = Math.min(240, Math.max(70, Math.max(r.width / count, r.height) * 0.75));
         } else {
           // Slow orbit behind the portrait, like light pooling in liquid.
           const angle = (b.phase + seconds * b.speed) * Math.PI * 2;
@@ -187,17 +193,17 @@ export function LiquidLight() {
         if (reduceMotion) {
           b.x = tx;
           b.y = ty;
-          b.alpha = 0.35;
+          b.alpha = 0.5;
         } else {
           // Spring toward the target, with a little wobble so the path looks fluid.
-          const wobble = 26;
+          const wobble = b.target ? 6 : 26;
           const ax = (tx + Math.sin(seconds * 1.3 + b.phase * 11) * wobble - b.x) * 9 - b.vx * 5;
           const ay = (ty + Math.cos(seconds * 1.1 + b.phase * 7) * wobble - b.y) * 9 - b.vy * 5;
           b.vx += ax * dt;
           b.vy += ay * dt;
           b.x += b.vx * dt;
           b.y += b.vy * dt;
-          const breathe = (b.target ? 0.2 : 0.22) + Math.sin(seconds * 0.9 + b.phase * 6) * 0.05;
+          const breathe = (b.target ? 0.075 : 0.1) + Math.sin(seconds * 0.9 + b.phase * 6) * 0.02;
           b.alpha += (breathe - b.alpha) * Math.min(1, dt * 2.5);
         }
         b.radius = b.target ? b.radius + (size - b.radius) * Math.min(1, dt * 3) : size;
