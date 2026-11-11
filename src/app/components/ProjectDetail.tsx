@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import { useParams, Link } from 'react-router';
+import { SectionNav } from './SectionNav';
 import hubsubLogo from '../../imports/Hubsub_logo_full.webp';
 import furwoodCover from '../../imports/furwood_cover_test.png';
 import hotSauceImage from '../../imports/hot_sauce_customized.png';
@@ -752,6 +754,7 @@ function SystemFigure({ screen }: { screen: Screen }) {
 export function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
   const project = projectId ? projectsData[projectId] : null;
+  const pageRef = useRef<HTMLDivElement>(null);
   /** Hubsub logo: full mark on white. Custom Caliente: text must stay visible; red frame fills the card. */
   const isHubsubHero = Boolean(project?.heroContain);
   const findingsLabels = project?.researchFindingsLabels ?? defaultFindingsLabels;
@@ -786,13 +789,13 @@ export function ProjectDetail() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div ref={pageRef} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <Link to="/projects" className="text-brand hover:text-brand-hover mb-6 inline-block">
         ← Back to Projects
       </Link>
 
       {/* Hero Section */}
-      <div className="mb-12">
+      <div>
         <div className={`h-2 bg-gradient-to-r ${project.color} rounded-full mb-6`} />
         <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
           {project.title}
@@ -818,6 +821,12 @@ export function ProjectDetail() {
             ))}
           </dl>
         ) : null}
+      </div>
+
+      {/* Sits directly in the page container so it can stay pinned for the whole page. */}
+      <SectionNav container={pageRef} pageKey={projectId} />
+
+      <div className="mb-12">
         {projectId === 'custom-caliente' ? (
           <div
             className={`overflow-hidden rounded-xl shadow-lg ring-1 ring-white/[0.1] bg-gradient-to-r ${project.color}`}
