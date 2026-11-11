@@ -49,7 +49,7 @@ export function Introduction() {
             className="reveal-side text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4"
             {...reveal(800, 3)}
           >
-            Hello, I'm <span className="text-brand">Jacob Hobzek</span>
+            Hello, I'm <span className="text-glow">Jacob Hobzek</span>
           </h1>
 
           <p className="reveal-side text-xl sm:text-2xl text-foreground mb-8 max-w-2xl" {...reveal(1900, 3)}>
@@ -59,14 +59,14 @@ export function Introduction() {
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <Link
               to="/projects/Hubsub"
-              className="reveal-up px-6 py-3 bg-brand text-black font-medium rounded-lg hover:bg-brand-hover transition-colors"
+              className="reveal-up px-6 py-3 bg-glow text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-glow-hover transition-colors"
               {...reveal(3200, 1)}
             >
               View My Work
             </Link>
             <a
               href="mailto:jacobhobzek@gmail.com"
-              className="reveal-up px-6 py-3 bg-brand-deep text-black font-medium rounded-lg hover:bg-brand-hover transition-colors"
+              className="reveal-up px-6 py-3 bg-glow-deep text-black font-semibold rounded-lg shadow-lg shadow-black/40 hover:bg-glow-hover transition-colors"
               {...reveal(3450, 1)}
             >
               Get in Touch
@@ -75,7 +75,7 @@ export function Introduction() {
               href="https://www.linkedin.com/in/jacob-hobzek-87060a231/"
               target="_blank"
               rel="noopener noreferrer"
-              className="reveal-up px-6 py-3 bg-[#0077b5] text-white rounded-lg hover:bg-[#005f91] transition-colors"
+              className="reveal-up px-6 py-3 bg-black/50 border-2 border-glow text-glow font-semibold rounded-lg backdrop-blur-sm hover:bg-glow hover:text-black transition-colors"
               {...reveal(3700, 1)}
             >
               LinkedIn

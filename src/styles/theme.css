@@ -121,6 +121,10 @@
   --color-brand-hover: #b49aff;
   --color-brand-light: #e4d9ff;
   --color-brand-deep: #9b7ee6;
+  /* Gold, the complement of the purple light, for accents on the home page. */
+  --color-glow: #ffd166;
+  --color-glow-hover: #ffe199;
+  --color-glow-deep: #f6b13a;
 }
 
 @layer base {
