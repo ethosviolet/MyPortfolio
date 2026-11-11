@@ -45,7 +45,11 @@ function sourcePoint(el: Element | null) {
   return { x: r.left + r.width * 0.5, y: r.top + r.height * 0.38 };
 }
 
-export function LiquidLight() {
+/**
+ * `strength` scales how bright the light is (1 = full). Inner pages turn it down so
+ * their content stays in the spotlight.
+ */
+export function LiquidLight({ strength = 1 }: { strength?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -252,7 +256,11 @@ export function LiquidLight() {
 
   return (
     <div className="fixed inset-0 -z-10 bg-[#07050c]" aria-hidden>
-      <canvas ref={canvasRef} className="liquid-light absolute inset-0 h-full w-full" />
+      <canvas
+        ref={canvasRef}
+        className="liquid-light absolute inset-0 h-full w-full transition-opacity duration-700"
+        style={{ opacity: strength }}
+      />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.55)_100%)]" />
     </div>
   );
