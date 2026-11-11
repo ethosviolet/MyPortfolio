@@ -32,3 +32,60 @@
   .reveal-side,
   .reveal-up { animation: none; }
 }
+
+/* Home page liquid light. The canvas is drawn small and blurred up so it reads as soft, liquid light. */
+.liquid-light {
+  filter: blur(34px) saturate(1.2);
+}
+
+/* Full-body portrait: greyscale cutout lit by the same purple light. */
+.portrait {
+  isolation: isolate;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 98%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 98%);
+}
+/* Both light layers are clipped to the portrait's own shape. */
+.portrait-tint,
+.portrait-rim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: var(--portrait);
+  mask-image: var(--portrait);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  opacity: 0;
+}
+.portrait-tint {
+  background: radial-gradient(ellipse at 50% 32%, #c4a0ff, #7c3aed 75%);
+  mix-blend-mode: color;
+  --lumen: 0.38;
+  animation:
+    lumen-in 2400ms ease-out 300ms forwards,
+    lumen-breathe 5s ease-in-out 2700ms infinite alternate;
+}
+.portrait-rim {
+  background:
+    linear-gradient(90deg, rgba(167, 139, 250, 0.85), transparent 30%, transparent 68%, rgba(192, 132, 252, 0.7)),
+    linear-gradient(to bottom, rgba(196, 160, 255, 0.4), transparent 35%);
+  mix-blend-mode: screen;
+  --lumen: 0.75;
+  animation:
+    lumen-in 2400ms ease-out 300ms forwards,
+    lumen-breathe 5s ease-in-out 2700ms infinite alternate;
+}
+@keyframes lumen-in {
+  from { opacity: 0; }
+  to { opacity: var(--lumen); }
+}
+@keyframes lumen-breathe {
+  from { opacity: var(--lumen); }
+  to { opacity: calc(var(--lumen) * 0.7); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-tint,
+  .portrait-rim {
+    animation: none;
+    opacity: var(--lumen);
+  }
+}
