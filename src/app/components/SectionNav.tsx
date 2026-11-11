@@ -23,6 +23,10 @@ export function SectionNav({ container, pageKey }: { container: RefObject<HTMLEl
   const [pinned, setPinned] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  /** Ends the current jump's alignment, so two jumps never pull against each other. */
+  const cancelJump = useRef<(() => void) | null>(null);
+
+  useEffect(() => () => cancelJump.current?.(), []);
 
   useEffect(() => {
     const root = container.current;
@@ -86,35 +90,45 @@ export function SectionNav({ container, pageKey }: { container: RefObject<HTMLEl
     s.el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
 
     // Once the scroll stops, keep the section lined up while late images finish loading.
-    // Stops after 4 seconds, or as soon as the visitor scrolls on their own.
-    let stopped = false;
+    // Only one jump corrects at a time: a new jump, the visitor scrolling on their own,
+    // the page holding still, or 4 seconds passing all end it.
+    cancelJump.current?.();
+    let timer = 0;
+    let steadyChecks = 0;
+    const startedAt = performance.now();
     const stop = () => {
-      stopped = true;
+      window.clearTimeout(timer);
+      window.removeEventListener('scrollend', begin);
       window.removeEventListener('wheel', stop);
       window.removeEventListener('touchstart', stop);
       window.removeEventListener('keydown', stop);
+      if (cancelJump.current === stop) cancelJump.current = null;
     };
+    const realign = () => {
+      const margin = parseFloat(s.el.style.scrollMarginTop) || 0;
+      const maxY = document.documentElement.scrollHeight - window.innerHeight;
+      // Sections near the end can't reach the top, so aim for the furthest the page can go.
+      const wantY = Math.min(maxY, window.scrollY + s.el.getBoundingClientRect().top - margin);
+      if (Math.abs(wantY - window.scrollY) > 4) {
+        window.scrollTo({ top: wantY, behavior: 'auto' });
+        steadyChecks = 0;
+      } else {
+        steadyChecks += 1;
+      }
+      if (steadyChecks >= 3 || performance.now() - startedAt > 4000) stop();
+      else timer = window.setTimeout(realign, 250);
+    };
+    const begin = () => {
+      window.removeEventListener('scrollend', begin);
+      window.clearTimeout(timer);
+      realign();
+    };
+    cancelJump.current = stop;
+    window.addEventListener('scrollend', begin);
     window.addEventListener('wheel', stop, { passive: true });
     window.addEventListener('touchstart', stop, { passive: true });
     window.addEventListener('keydown', stop);
-    const startedAt = performance.now();
-    const realign = () => {
-      if (stopped) return;
-      const margin = parseFloat(s.el.style.scrollMarginTop) || 0;
-      const offBy = s.el.getBoundingClientRect().top - margin;
-      if (Math.abs(offBy) > 4) window.scrollBy({ top: offBy, behavior: 'auto' });
-      if (performance.now() - startedAt < 4000) window.setTimeout(realign, 250);
-      else stop();
-    };
-    let begun = false;
-    const begin = () => {
-      if (begun) return;
-      begun = true;
-      window.removeEventListener('scrollend', begin);
-      realign();
-    };
-    window.addEventListener('scrollend', begin);
-    window.setTimeout(begin, reduceMotion ? 0 : 1200);
+    timer = window.setTimeout(begin, reduceMotion ? 0 : 1200);
   };
 
   return (
